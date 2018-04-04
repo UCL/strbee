@@ -1,0 +1,56 @@
+Notes on strbee
+===============
+
+cscript: H:\trtchg\strbee\update2011\strbee_cscript.do
+
+stb version was 1.0, but with ipe options removed
+
+1.1 counts recensored events (as well as recensored subjects)
+
+TO DO:
+======
+
+9mar2015:
+    Would be nice to be able to call for kmgraph (and generated values) for a given psi without having to run the estimation.
+    strbee2 fails without endstudy variable - strangely, it requires it even if there is no censoring before stplitting
+
+SEE Nick Latimer's email of 24/4/2014 with errors in ton, toff
+
+also implement the weighted log rank test
+
+is code adequate or should it be more modularised???
+
+(from discussion with Richard Grieve, 19/9/2013): 2nd syntax using -stsplit- data to allow time-dependent quantitative compliance and offset
+    e.g. strbee (trt = imm) xvars, offset(0.07*othertrt)
+    where
+        treatment variable trt could be
+            0/1 if off/on trt,
+            dose,
+            could be multiplied by k in placebo arm to allow for treatment effect heterogeneity
+        imm is the IV
+        xvars are old adjvars
+    syntax is like -ivregress-, but only 1 trt variable and 1 IV allowed
+    this should allow same results with imm replaced by def! but would need care...
+
+allow dist(gompertz) and all other streg dist() options
+
+should hr use exp|weib when these are called?
+
+more general kmgraph syntax?
+
+add cluster() option!
+
+noticed 20/9/2012:
+
+    lower and upper bounds are sometimes the wrong way round!
+
+    debug and trace
+
+Nick Latimer, 17/12/12:
+> For the IPE option, I understand that bootstrapping is best to get confidence intervals for psi. However, I was wondering what the easiest way to obtain confidence intervals for the HR associated with the IPE analysis would be? Would it require another bootstrapping run? Or could a test-based confidence interval be calculated?
+i don't think you need *another* bootstrap run - you can get SE/CI for psi and HR from the same run (I've just checked, both are saved).
+but yes, I think a test-based CI would be reasonable, though this is not explicitly given in any literature as far as I'm aware
+> Here comes my main lack of knowledge though - if a test-based confidence interval could be used, how do I get the z statistic value for psi=0 for the IPE option? When I use savedta() under the IPE approach I don't get a z statistic value for psi=0. Would this just be the same as the z value given after fitting a Weibull model under an ITT analysis?
+Yes, I think this is the right answer. In fact the z-statistic you need is the first z-statistic in the savedta() file, because the IPE algorithm first fits a weibull model to the observed data. It would be good if I coded this in -strbee-.
+
+
