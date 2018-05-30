@@ -2,6 +2,7 @@
 cscript for strbee
 was in trtchg\strbee\ado\update2011
 moved 12feb2018 to C:\ado\ian\strbee & updated
+30may2018: added check that `gen' variables are non-missing
 */
 
 cd c:\ado\ian\strbee
@@ -61,9 +62,9 @@ cf _all using z
 
 * Different estimation methods
 strbee imm, psimin(-4) psimax(2) psistep(0.1) xo0(xoyrs xo) ///
-    endstudy(cens) savedta(temp, replace)
+    endstudy(cens) savedta(zz, replace)
 strbee imm, psimin(2) psimax(4) psistep(0.1) xo0(xoyrs xo) ///
-    endstudy(cens) savedta(temp, append)
+    endstudy(cens) savedta(zz, append)
 strbee imm, ipe psistart(-1) xo0(xoyrs xo) endstudy(cens)
 strbee imm, ipe ipecens psistart(-1) xo0(xoyrs xo) endstudy(cens)
 
@@ -74,6 +75,7 @@ strbee imm, xo0(xoyrs xo) savedta(zz,replace) endstudy(cens) gen(u3) ///
     level(99.5) debug hr tol(6) maxiter(50) test(weibull) adjvars(x) strata(stratum) ///
     kmgraph(title(KM graph) name(KMgraph, replace) showall ///
 		lpattern(dash dot) lcolor(green red blue)) 
+assert !mi(u3,du3,cu3)
 ret list
 local psi=r(psi)
 
@@ -107,5 +109,10 @@ assert abs(`hr' - r(HR_user)) < 1E-6
 * Check data haven't been changed
 drop u du cu ton
 cf _all using z
+
+* Tidy up
+erase z.dta
+erase zz.dta
+erase _strbee_savedta.dta
 
 di "*** strbee_cscript has run successfully ***"
