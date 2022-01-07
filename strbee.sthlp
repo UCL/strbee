@@ -1,4 +1,5 @@
 {smcl}
+{* 07jan2022, updates to kmgraph}{...}
 {* 13feb2020, minor clarification to hr}{...}
 {* 30may2018, minor updates}{...}
 {* version 1.8.6   Ian White   17jan2018}{...}
@@ -257,16 +258,18 @@ then the hazard ratio is adjusted for {it:varlist}.
 
 {phang}
 {cmdab:km:graph}[{cmd:(}{it:suboptions}{cmd:)}] 
-draws the Kaplan-Meier graph for the observed event times 
-and also, for each arm with switches, the counterfactual event times 
-if that arm had never received treatment 
-and if that arm had always received treatment.
+draws, for each arm, the Kaplan-Meier graph for the observed event times (labelled "as observed")
+and also the counterfactual event times 
+if that arm had never received treatment (labelled "if untreated").
+The counterfactual untreated graph is not drawn for arm 0 if there are no switches in that arm.
 
 {pmore}Possible {it:suboptions} are:
 
 {pmore}most of the options allowed with {cmd:sts graph}; see {help sts graph}. 
 
-{pmore}{cmdab:showa:ll} causes all six graphs to be drawn, even when one arm has no switches.
+{pmore}{cmdab:showa:ll} causes the Kaplan-Meier graph for the counterfactual event times 
+if that arm had always received treatment (labelled "if fully treated").
+However the fully-treated graph for arm 1 is not drawn if there are no switches in that arm.
 
 {pmore}{cmdab:untr:eated} causes only the two graphs for the counterfactual untreated event times to be drawn.
 
@@ -277,6 +280,10 @@ for the control arm (default: dash) and then the treatment arm (default: solid).
 for the observed data (default: black), 
 then the counterfactual untreated data (default: orange),
 and then the counterfactual fully treated data (default: blue).
+
+{pmore}{cmd:show(#....)} specifies exactly which graphs to show: 
+0, 10, 20 for arm 0 as observed, if untreated and if fully-treated;
+1, 11, 21 for arm 1 as observed, if untreated and if fully-treated.
 
 {phang}
 {cmd:gen(}{it:newvarname}{cmd:)} generates 

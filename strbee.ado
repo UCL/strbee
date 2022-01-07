@@ -1,6 +1,12 @@
-*! version 1.8.9   Ian White   13feb2020
+*! version 1.9.0   Ian White   7jan2022
 
 /*************************** NOTES ********************************
+v1.9.0 7jan2022
+	small changes to km option
+		never show counterfactual graphs when they match observed
+		default is observed and untreated
+		change "if observed" to "as observed"
+	send to SSC before UMIT course
 v1.8.9 13feb2020 
 	added "if" to legends in kmgraph option
 version 1.8.8   30may2018 - ON MY UCL WEBSITE
@@ -921,8 +927,8 @@ if "`estOK'"!="0" {
                   `treat0' `u1' `du' `adjvars' `strata', group(3) clear
         rename _stack `type'
         qui gen int `treat' = 10*(`type'-1)+`treat0'
-        local name0  "0 if observed"
-		local name1  "1 if observed"
+        local name0  "0 as observed"
+		local name1  "1 as observed"
         local name10 "0 if untreated"
 		local name11 "1 if untreated"    
         local name20 "0 if fully treated" 
@@ -1005,10 +1011,10 @@ if "`estOK'"!="0" {
         if `"`kmgraph'"'!=`""' { // greatly expanded v1.8.4 to improve patterns and colours
             local 0 , `kmgraph'
             syntax, [run LPattern(string) LColor(string) SHOWAll UNTReated show(numlist) *]
-			if !mi("`untreated'") { // new suboption v1.8.3 
+			if !mi("`untreated'") { // if-untreated graphs only
 				qui keep if inlist(`treat',10,11)
 			}
-			else if !mi("`show'") { // new suboption v1.8.7
+			else if !mi("`show'") { // specified graphs only
 				tempvar toshow
 				gen `toshow' = 0
 				foreach toshowval of numlist `show' {
@@ -1016,11 +1022,13 @@ if "`estOK'"!="0" {
 				}
 				qui drop if !`toshow'
 			}
-			else if mi("`showall'") { // new suboption v1.8.3 
-				if `nxo0'==0 qui drop if inlist(`treat',10,20)
-				if `nxo1'==0 qui drop if inlist(`treat',11,21)
+			else { // default or showall
+				if mi("`showall'") { 
+					drop if inlist(`treat',20,21) 
+				}
+				if `nxo0'==0 qui drop if inlist(`treat',10,20) // v1.9.0: if no C switches, never show untreated or fully-treated 
+				if `nxo1'==0 qui drop if inlist(`treat',21) // v1.9.0: if no E switches, never show fully-treated 
 			}
-
 			local lpattern1 : word 1 of `lpattern'
 			local lpattern2 : word 2 of `lpattern'
 			if mi("`lpattern1'") local lpattern1 dash // for control arm

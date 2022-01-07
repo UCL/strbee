@@ -1,0 +1,2136 @@
+---------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  c:\ado\ian\strbee\strbee_cscript.log
+  log type:  text
+ opened on:   7 Jan 2022, 16:28:41
+
+. 
+. /* 
+> cscript for strbee
+> was in trtchg\strbee\ado\update2011
+> moved 12feb2018 to C:\ado\ian\strbee & updated
+> 30may2018: added check that `gen' variables are non-missing
+> */
+. 
+. pda
+
+. set more off
+
+. set trace off
+
+. set tracedepth 3
+
+. progver strbee
+No priority version found
+
+Current version:
+c:\ado\ian\strbee\strbee.ado
+*! version 1.9.0   Ian White   7jan2022
+
+. cscript strbee
+-------------------------------------------------------------------BEGIN strbee
+
+. set linesize 99
+
+. 
+. * Comparision of different syntaxes in Jack's data
+. * what is correct answer?
+. use example_data, clear
+(Written by R.              )
+
+. stset T event
+
+Survival-time data settings
+
+         Failure event: event!=0 & event<.
+Observed time interval: (0, T]
+     Exit on or before: failure
+
+--------------------------------------------------------------------------
+      1,000  total observations
+          0  exclusions
+--------------------------------------------------------------------------
+      1,000  observations remaining, representing
+        910  failures in single-record/single-failure data
+ 13,130.371  total analysis time at risk and under observation
+                                                At risk from t =         0
+                                     Earliest observed entry t =         0
+                                          Last observed exit t =        40
+
+. gen cens = 40
+
+. strbee R, xo0(Toff) xo1(Ton) endstudy(cens) trace
+test() not specified: assumed test(logrank)
+Arm R=0: 32 subjects have Toff > _t (treated as no switch)
+Arm R=1: 12 subjects have Ton > _t (treated as no switch)
+Searching by interval bisection
+Total in arm 0/1:              482/518 subjects (434/476 events)
+psi =          0   recensoring   0/  0 subjects (  0/  0 events)   Z = -0.5379218 
+psi =         -1   recensoring 120/130 subjects ( 93/111 events)   Z = -0.1538282 
+psi =         -2   recensoring 272/278 subjects (233/251 events)   Z =  1.2169517 
+psi =         -3   recensoring 380/356 subjects (334/327 events)   Z =  3.4746400 
+psi =          1   recensoring  53/ 78 subjects ( 42/ 62 events)   Z = -2.2399325 
+psi =       -1.5   recensoring 190/211 subjects (159/186 events)   Z =  0.1849840 
+psi =      -1.25   recensoring 158/176 subjects (129/153 events)   Z = -0.0248562 
+psi =     -1.375   recensoring 171/193 subjects (142/170 events)   Z = -0.0177290 
+psi =    -1.4375   recensoring 182/204 subjects (151/181 events)   Z = -0.0059190 
+psi =   -1.46875   recensoring 186/204 subjects (155/181 events)   Z =  0.1864391 
+psi =  -1.453125   recensoring 183/204 subjects (152/181 events)   Z =  0.0457412 
+psi =  -1.445313   recensoring 182/204 subjects (151/181 events)   Z = -0.0006322 
+psi =  -1.449219   recensoring 183/204 subjects (152/181 events)   Z =  0.0450617 
+psi =  -1.447266   recensoring 182/204 subjects (151/181 events)   Z =  0.0003225 
+psi =  -1.446289   recensoring 182/204 subjects (151/181 events)   Z =  0.0000070 
+psi =         .5   recensoring  21/ 36 subjects ( 10/ 21 events)   Z = -1.4696551 
+psi =        .75   recensoring  38/ 51 subjects ( 27/ 36 events)   Z = -1.6549926 
+psi =       .875   recensoring  45/ 61 subjects ( 34/ 46 events)   Z = -1.8697519 
+psi =      .9375   recensoring  47/ 68 subjects ( 36/ 53 events)   Z = -2.0817794 
+psi =     .90625   recensoring  47/ 63 subjects ( 36/ 48 events)   Z = -1.8997003 
+psi =    .921875   recensoring  47/ 67 subjects ( 36/ 52 events)   Z = -2.0408275 
+psi =   .9140625   recensoring  47/ 64 subjects ( 36/ 49 events)   Z = -1.9366226 
+psi =   .9179688   recensoring  47/ 66 subjects ( 36/ 51 events)   Z = -2.0047962 
+psi =   .9160156   recensoring  47/ 66 subjects ( 36/ 51 events)   Z = -2.0054245 
+psi =   .9150391   recensoring  47/ 64 subjects ( 36/ 49 events)   Z = -1.9361197 
+psi =       -2.5   recensoring 323/315 subjects (281/287 events)   Z =  2.2432179 
+psi =      -2.25   recensoring 293/297 subjects (254/269 events)   Z =  1.5679347 
+psi =     -2.375   recensoring 308/308 subjects (268/280 events)   Z =  1.8292158 
+psi =    -2.4375   recensoring 316/312 subjects (275/284 events)   Z =  2.0390744 
+psi =   -2.40625   recensoring 312/310 subjects (272/282 events)   Z =  1.9631840 
+psi =  -2.390625   recensoring 309/308 subjects (269/280 events)   Z =  1.8913097 
+psi =  -2.398438   recensoring 310/308 subjects (270/280 events)   Z =  1.9493617 
+psi =  -2.402344   recensoring 312/309 subjects (272/281 events)   Z =  2.0114929 
+psi =  -2.400391   recensoring 311/309 subjects (271/281 events)   Z =  1.9545587 
+psi =  -2.401367   recensoring 311/309 subjects (271/281 events)   Z =  1.9549687 
+
+file _strbee_savedta.dta saved
+
+----------------------------------------------------------------
+Estimating psi from accelerated life model
+----------------------------------------------------------------
+R=0                    482 subjects, 434 events, 357 switches
+R=1                    518 subjects, 476 events, 419 switches
+Method                 Robins-Tsiatis method
+Randomised group       R
+Test                   logrank
+   adjusted for        -
+   stratified by       -
+Switch in arm 0        Toff
+Switch in arm 1        Ton
+Treatment variable     R
+End of study variable  cens
+Recensoring options    -
+Results file           _strbee_savedta
+
+Results for log acceleration ratio psi
+----------------------------------------------------------------
+                psi           P-value    [95% Conf. interval]
+----------------------------------------------------------------
+Best            -1.446278     0.591      -2.401453     .915375
+lower bound     -1.446289                -2.402344    .9150391
+upper bound     -1.445313                -2.401367    .9160156
+----------------------------------------------------------------
+
+. local true = r(psi)
+
+. 
+. replace Ton = cond(R, min(Ton,T), T-min(Toff,T))
+(153 real changes made)
+
+. replace Toff = T - Ton
+(73 real changes made)
+
+. strbee R, xo0(Toff) xo1(Ton) endstudy(cens) trace
+test() not specified: assumed test(logrank)
+Searching by interval bisection
+Total in arm 0/1:              482/518 subjects (434/476 events)
+psi =          0   recensoring   0/  0 subjects (  0/  0 events)   Z = -0.5379218 
+psi =         -1   recensoring 120/130 subjects ( 93/111 events)   Z = -0.1538282 
+psi =         -2   recensoring 272/278 subjects (233/251 events)   Z =  1.2169517 
+psi =         -3   recensoring 380/356 subjects (334/327 events)   Z =  3.4746400 
+psi =          1   recensoring  53/ 78 subjects ( 42/ 62 events)   Z = -2.2399325 
+psi =       -1.5   recensoring 190/211 subjects (159/186 events)   Z =  0.1849840 
+psi =      -1.25   recensoring 158/176 subjects (129/153 events)   Z = -0.0248562 
+psi =     -1.375   recensoring 171/193 subjects (142/170 events)   Z = -0.0177290 
+psi =    -1.4375   recensoring 182/204 subjects (151/181 events)   Z = -0.0059190 
+psi =   -1.46875   recensoring 186/204 subjects (155/181 events)   Z =  0.1864391 
+psi =  -1.453125   recensoring 183/204 subjects (152/181 events)   Z =  0.0457412 
+psi =  -1.445313   recensoring 182/204 subjects (151/181 events)   Z = -0.0006322 
+psi =  -1.449219   recensoring 183/204 subjects (152/181 events)   Z =  0.0450617 
+psi =  -1.447266   recensoring 182/204 subjects (151/181 events)   Z =  0.0003225 
+psi =  -1.446289   recensoring 182/204 subjects (151/181 events)   Z =  0.0000070 
+psi =         .5   recensoring  21/ 36 subjects ( 10/ 21 events)   Z = -1.4696551 
+psi =        .75   recensoring  38/ 51 subjects ( 27/ 36 events)   Z = -1.6549926 
+psi =       .875   recensoring  45/ 61 subjects ( 34/ 46 events)   Z = -1.8697519 
+psi =      .9375   recensoring  47/ 68 subjects ( 36/ 53 events)   Z = -2.0817794 
+psi =     .90625   recensoring  47/ 63 subjects ( 36/ 48 events)   Z = -1.8997003 
+psi =    .921875   recensoring  47/ 67 subjects ( 36/ 52 events)   Z = -2.0408275 
+psi =   .9140625   recensoring  47/ 64 subjects ( 36/ 49 events)   Z = -1.9366226 
+psi =   .9179688   recensoring  47/ 66 subjects ( 36/ 51 events)   Z = -2.0047962 
+psi =   .9160156   recensoring  47/ 66 subjects ( 36/ 51 events)   Z = -2.0054245 
+psi =   .9150391   recensoring  47/ 64 subjects ( 36/ 49 events)   Z = -1.9361197 
+psi =       -2.5   recensoring 323/315 subjects (281/287 events)   Z =  2.2432179 
+psi =      -2.25   recensoring 293/297 subjects (254/269 events)   Z =  1.5679347 
+psi =     -2.375   recensoring 308/308 subjects (268/280 events)   Z =  1.8292158 
+psi =    -2.4375   recensoring 316/312 subjects (275/284 events)   Z =  2.0390744 
+psi =   -2.40625   recensoring 312/310 subjects (272/282 events)   Z =  1.9631840 
+psi =  -2.390625   recensoring 309/308 subjects (269/280 events)   Z =  1.8913097 
+psi =  -2.398438   recensoring 310/308 subjects (270/280 events)   Z =  1.9493617 
+psi =  -2.402344   recensoring 312/309 subjects (272/281 events)   Z =  2.0114929 
+psi =  -2.400391   recensoring 311/309 subjects (271/281 events)   Z =  1.9545587 
+psi =  -2.401367   recensoring 311/309 subjects (271/281 events)   Z =  1.9549687 
+
+file _strbee_savedta.dta saved
+
+----------------------------------------------------------------
+Estimating psi from accelerated life model
+----------------------------------------------------------------
+R=0                    482 subjects, 434 events, 357 switches
+R=1                    518 subjects, 476 events, 419 switches
+Method                 Robins-Tsiatis method
+Randomised group       R
+Test                   logrank
+   adjusted for        -
+   stratified by       -
+Switch in arm 0        Toff
+Switch in arm 1        Ton
+Treatment variable     R
+End of study variable  cens
+Recensoring options    -
+Results file           _strbee_savedta
+
+Results for log acceleration ratio psi
+----------------------------------------------------------------
+                psi           P-value    [95% Conf. interval]
+----------------------------------------------------------------
+Best            -1.446278     0.591      -2.401453     .915375
+lower bound     -1.446289                -2.402344    .9150391
+upper bound     -1.445313                -2.401367    .9160156
+----------------------------------------------------------------
+
+. assert abs(r(psi) - (`true')) < 1E-5
+
+. 
+. gen double ton = cond(R, Ton, T-Toff)
+
+. gen double toff = cond(R, T - Ton, Toff)
+
+. strbee R, ton(ton) toff(toff) endstudy(cens) trace
+test() not specified: assumed test(logrank)
+Searching by interval bisection
+Total in arm 0/1:              482/518 subjects (434/476 events)
+psi =          0   recensoring   0/  0 subjects (  0/  0 events)   Z = -0.5379218 
+psi =         -1   recensoring 120/130 subjects ( 93/111 events)   Z = -0.1538282 
+psi =         -2   recensoring 272/278 subjects (233/251 events)   Z =  1.2169517 
+psi =         -3   recensoring 380/356 subjects (334/327 events)   Z =  3.4746400 
+psi =          1   recensoring  53/ 78 subjects ( 42/ 62 events)   Z = -2.2399325 
+psi =       -1.5   recensoring 190/211 subjects (159/186 events)   Z =  0.1849840 
+psi =      -1.25   recensoring 158/176 subjects (129/153 events)   Z = -0.0248562 
+psi =     -1.375   recensoring 171/193 subjects (142/170 events)   Z = -0.0177290 
+psi =    -1.4375   recensoring 182/204 subjects (151/181 events)   Z = -0.0059190 
+psi =   -1.46875   recensoring 186/204 subjects (155/181 events)   Z =  0.1864391 
+psi =  -1.453125   recensoring 183/204 subjects (152/181 events)   Z =  0.0457412 
+psi =  -1.445313   recensoring 182/204 subjects (151/181 events)   Z = -0.0006322 
+psi =  -1.449219   recensoring 183/204 subjects (152/181 events)   Z =  0.0450617 
+psi =  -1.447266   recensoring 182/204 subjects (151/181 events)   Z =  0.0003225 
+psi =  -1.446289   recensoring 182/204 subjects (151/181 events)   Z =  0.0000070 
+psi =         .5   recensoring  21/ 36 subjects ( 10/ 21 events)   Z = -1.4696551 
+psi =        .75   recensoring  38/ 51 subjects ( 27/ 36 events)   Z = -1.6549926 
+psi =       .875   recensoring  45/ 61 subjects ( 34/ 46 events)   Z = -1.8697519 
+psi =      .9375   recensoring  47/ 68 subjects ( 36/ 53 events)   Z = -2.0817794 
+psi =     .90625   recensoring  47/ 63 subjects ( 36/ 48 events)   Z = -1.8997003 
+psi =    .921875   recensoring  47/ 67 subjects ( 36/ 52 events)   Z = -2.0408275 
+psi =   .9140625   recensoring  47/ 64 subjects ( 36/ 49 events)   Z = -1.9366226 
+psi =   .9179688   recensoring  47/ 66 subjects ( 36/ 51 events)   Z = -2.0047962 
+psi =   .9160156   recensoring  47/ 66 subjects ( 36/ 51 events)   Z = -2.0054245 
+psi =   .9150391   recensoring  47/ 64 subjects ( 36/ 49 events)   Z = -1.9361197 
+psi =       -2.5   recensoring 323/315 subjects (281/287 events)   Z =  2.2432179 
+psi =      -2.25   recensoring 293/297 subjects (254/269 events)   Z =  1.5679347 
+psi =     -2.375   recensoring 308/308 subjects (268/280 events)   Z =  1.8292158 
+psi =    -2.4375   recensoring 316/312 subjects (275/284 events)   Z =  2.0390744 
+psi =   -2.40625   recensoring 312/310 subjects (272/282 events)   Z =  1.9631840 
+psi =  -2.390625   recensoring 309/308 subjects (269/280 events)   Z =  1.8913097 
+psi =  -2.398438   recensoring 310/308 subjects (270/280 events)   Z =  1.9493617 
+psi =  -2.402344   recensoring 312/309 subjects (272/281 events)   Z =  2.0114929 
+psi =  -2.400391   recensoring 311/309 subjects (271/281 events)   Z =  1.9545587 
+psi =  -2.401367   recensoring 311/309 subjects (271/281 events)   Z =  1.9549687 
+
+file _strbee_savedta.dta saved
+
+----------------------------------------------------------------
+Estimating psi from accelerated life model
+----------------------------------------------------------------
+R=0                    482 subjects, 434 events, 357 switches
+R=1                    518 subjects, 476 events, 419 switches
+Method                 Robins-Tsiatis method
+Randomised group       R
+Test                   logrank
+   adjusted for        -
+   stratified by       -
+Time on treatment      ton
+Time off treatment     toff
+Treatment variable     R
+End of study variable  cens
+Recensoring options    -
+Results file           _strbee_savedta
+
+Results for log acceleration ratio psi
+----------------------------------------------------------------
+                psi           P-value    [95% Conf. interval]
+----------------------------------------------------------------
+Best            -1.446278     0.591      -2.401453     .915375
+lower bound     -1.446289                -2.402344    .9150391
+upper bound     -1.445313                -2.401367    .9160156
+----------------------------------------------------------------
+
+. assert abs(r(psi) - (`true')) < 1E-5
+
+. 
+. * Now in immdef data
+. 
+. use immdef, clear
+(Example data for strbee)
+
+. stset progyrs prog
+
+Survival-time data settings
+
+         Failure event: prog!=0 & prog<.
+Observed time interval: (0, progyrs]
+     Exit on or before: failure
+
+--------------------------------------------------------------------------
+      1,000  total observations
+          0  exclusions
+--------------------------------------------------------------------------
+      1,000  observations remaining, representing
+        312  failures in single-record/single-failure data
+    1,932.5  total analysis time at risk and under observation
+                                                At risk from t =         0
+                                     Earliest observed entry t =         0
+                                          Last observed exit t =         3
+
+. set seed 46806
+
+. gen x = rnormal()
+
+. gen stratum = runiform()<0.5
+
+. save z, replace
+(file z.dta not found)
+file z.dta saved
+
+. 
+. * Different analyses
+. strbee imm, graph(title(ITT analysis) name(zgraph_itt, replace)) debug
+Estimation and output syntax
+Gestimate imm  , graph(title(ITT analysis) name(zgraph_itt, replace)) debug
+test() not specified: assumed test(logrank)
+Warning: you have censored data - specify endstudy() to avoid bias
+Searching by interval bisection
+psi =          0 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(0) 
+>  toff(__000007) ton(__000008) toffmax1(0) tonmax0(0) noipe noipecens notrace endstudy(.) isrecens
+> (__000006) debug
+Z = -1.9138813  esthi=0 estlo=. upphi=. upplo=0 lowhi=0 lowlo=. Extending psi range to left 
+psi =         -1 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-1)
+>   toff(__000007) ton(__000008) toffmax1(0) tonmax0(0) noipe noipecens notrace endstudy(.) isrecen
+> s(__000006) debug
+Z =  8.7474574  esthi=0 estlo=-1 upphi=. upplo=0 lowhi=0 lowlo=-1 
+psi =          1 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(1) 
+>  toff(__000007) ton(__000008) toffmax1(0) tonmax0(0) noipe noipecens notrace endstudy(.) isrecens
+> (__000006) debug
+Z = -1.150e+01  esthi=0 estlo=-1 upphi=1 upplo=0 lowhi=0 lowlo=-1 
+psi =        -.5 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-.5
+> )  toff(__000007) ton(__000008) toffmax1(0) tonmax0(0) noipe noipecens notrace endstudy(.) isrece
+> ns(__000006) debug
+Z =  4.2227276  esthi=0 estlo=-.5 upphi=1 upplo=0 lowhi=0 lowlo=-.5 Improving estimate 
+psi =       -.25 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-.2
+> 5)  toff(__000007) ton(__000008) toffmax1(0) tonmax0(0) noipe noipecens notrace endstudy(.) isrec
+> ens(__000006) debug
+Z =  1.2782664  esthi=0 estlo=-.25 upphi=1 upplo=0 lowhi=-.25 lowlo=-.5 Improving estimate 
+psi =      -.125 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-.1
+> 25)  toff(__000007) ton(__000008) toffmax1(0) tonmax0(0) noipe noipecens notrace endstudy(.) isre
+> cens(__000006) debug
+Z = -0.2779329  esthi=-.125 estlo=-.25 upphi=1 upplo=0 lowhi=-.25 lowlo=-.5 Improving estimate 
+psi =     -.1875 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-.1
+> 875)  toff(__000007) ton(__000008) toffmax1(0) tonmax0(0) noipe noipecens notrace endstudy(.) isr
+> ecens(__000006) debug
+Z =  0.5002976  esthi=-.125 estlo=-.1875 upphi=1 upplo=0 lowhi=-.25 lowlo=-.5 Improving estimate 
+psi =    -.15625 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-.1
+> 5625)  toff(__000007) ton(__000008) toffmax1(0) tonmax0(0) noipe noipecens notrace endstudy(.) is
+> recens(__000006) debug
+Z =  0.1145897  esthi=-.125 estlo=-.15625 upphi=1 upplo=0 lowhi=-.25 lowlo=-.5 Improving estimate 
+psi =   -.140625 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-.1
+> 40625)  toff(__000007) ton(__000008) toffmax1(0) tonmax0(0) noipe noipecens notrace endstudy(.) i
+> srecens(__000006) debug
+Z = -0.0751832  esthi=-.140625 estlo=-.15625 upphi=1 upplo=0 lowhi=-.25 lowlo=-.5 Improving estimat
+> e 
+psi =  -.1484375 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-.1
+> 484375)  toff(__000007) ton(__000008) toffmax1(0) tonmax0(0) noipe noipecens notrace endstudy(.) 
+> isrecens(__000006) debug
+Z =  0.0171608  esthi=-.140625 estlo=-.1484375 upphi=1 upplo=0 lowhi=-.25 lowlo=-.5 Improving estim
+> ate 
+psi =  -.1445313 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-.1
+> 4453125)  toff(__000007) ton(__000008) toffmax1(0) tonmax0(0) noipe noipecens notrace endstudy(.)
+>  isrecens(__000006) debug
+Z = -0.0291314  esthi=-.14453125 estlo=-.1484375 upphi=1 upplo=0 lowhi=-.25 lowlo=-.5 Improving est
+> imate 
+psi =  -.1464844 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-.1
+> 46484375)  toff(__000007) ton(__000008) toffmax1(0) tonmax0(0) noipe noipecens notrace endstudy(.
+> ) isrecens(__000006) debug
+Z = -0.0087798  esthi=-.14648438 estlo=-.1484375 upphi=1 upplo=0 lowhi=-.25 lowlo=-.5 Improving est
+> imate 
+psi =  -.1474609 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-.1
+> 474609375)  toff(__000007) ton(__000008) toffmax1(0) tonmax0(0) noipe noipecens notrace endstudy(
+> .) isrecens(__000006) debug
+Z =  0.0049644  esthi=-.14648438 estlo=-.1474609375 upphi=1 upplo=0 lowhi=-.25 lowlo=-.5 Improving 
+> upper CL 
+psi =         .5 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(.5)
+>   toff(__000007) ton(__000008) toffmax1(0) tonmax0(0) noipe noipecens notrace endstudy(.) isrecen
+> s(__000006) debug
+Z = -7.6230380  esthi=-.14648438 estlo=-.1474609375 upphi=.5 upplo=0 lowhi=-.25 lowlo=-.5 Improving
+>  upper CL 
+psi =        .25 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(.25
+> )  toff(__000007) ton(__000008) toffmax1(0) tonmax0(0) noipe noipecens notrace endstudy(.) isrece
+> ns(__000006) debug
+Z = -4.9795264  esthi=-.14648438 estlo=-.1474609375 upphi=.25 upplo=0 lowhi=-.25 lowlo=-.5 Improvin
+> g upper CL 
+psi =       .125 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(.12
+> 5)  toff(__000007) ton(__000008) toffmax1(0) tonmax0(0) noipe noipecens notrace endstudy(.) isrec
+> ens(__000006) debug
+Z = -3.4842666  esthi=-.14648438 estlo=-.1474609375 upphi=.125 upplo=0 lowhi=-.25 lowlo=-.5 Improvi
+> ng upper CL 
+psi =      .0625 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(.06
+> 25)  toff(__000007) ton(__000008) toffmax1(0) tonmax0(0) noipe noipecens notrace endstudy(.) isre
+> cens(__000006) debug
+Z = -2.7124231  esthi=-.14648438 estlo=-.1474609375 upphi=.0625 upplo=0 lowhi=-.25 lowlo=-.5 Improv
+> ing upper CL 
+psi =     .03125 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(.03
+> 125)  toff(__000007) ton(__000008) toffmax1(0) tonmax0(0) noipe noipecens notrace endstudy(.) isr
+> ecens(__000006) debug
+Z = -2.2852806  esthi=-.14648438 estlo=-.1474609375 upphi=.03125 upplo=0 lowhi=-.25 lowlo=-.5 Impro
+> ving upper CL 
+psi =    .015625 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(.01
+> 5625)  toff(__000007) ton(__000008) toffmax1(0) tonmax0(0) noipe noipecens notrace endstudy(.) is
+> recens(__000006) debug
+Z = -2.1316044  esthi=-.14648438 estlo=-.1474609375 upphi=.015625 upplo=0 lowhi=-.25 lowlo=-.5 Impr
+> oving upper CL 
+psi =   .0078125 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(.00
+> 78125)  toff(__000007) ton(__000008) toffmax1(0) tonmax0(0) noipe noipecens notrace endstudy(.) i
+> srecens(__000006) debug
+Z = -2.0317801  esthi=-.14648438 estlo=-.1474609375 upphi=.0078125 upplo=0 lowhi=-.25 lowlo=-.5 Imp
+> roving upper CL 
+psi =  .00390625 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(.00
+> 390625)  toff(__000007) ton(__000008) toffmax1(0) tonmax0(0) noipe noipecens notrace endstudy(.) 
+> isrecens(__000006) debug
+Z = -1.9851901  esthi=-.14648438 estlo=-.1474609375 upphi=.00390625 upplo=0 lowhi=-.25 lowlo=-.5 Im
+> proving upper CL 
+psi =  .00195313 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(.00
+> 1953125)  toff(__000007) ton(__000008) toffmax1(0) tonmax0(0) noipe noipecens notrace endstudy(.)
+>  isrecens(__000006) debug
+Z = -1.9639833  esthi=-.14648438 estlo=-.1474609375 upphi=.001953125 upplo=0 lowhi=-.25 lowlo=-.5 I
+> mproving upper CL 
+psi =  .00097656 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(.00
+> 09765625)  toff(__000007) ton(__000008) toffmax1(0) tonmax0(0) noipe noipecens notrace endstudy(.
+> ) isrecens(__000006) debug
+Z = -1.9217473  esthi=-.14648438 estlo=-.1474609375 upphi=.001953125 upplo=.0009765625 lowhi=-.25 l
+> owlo=-.5 Improving lower CL 
+psi =      -.375 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-.3
+> 75)  toff(__000007) ton(__000008) toffmax1(0) tonmax0(0) noipe noipecens notrace endstudy(.) isre
+> cens(__000006) debug
+Z =  2.8401569  esthi=-.14648438 estlo=-.1474609375 upphi=.001953125 upplo=.0009765625 lowhi=-.25 l
+> owlo=-.375 Improving lower CL 
+psi =     -.3125 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-.3
+> 125)  toff(__000007) ton(__000008) toffmax1(0) tonmax0(0) noipe noipecens notrace endstudy(.) isr
+> ecens(__000006) debug
+Z =  2.0692643  esthi=-.14648438 estlo=-.1474609375 upphi=.001953125 upplo=.0009765625 lowhi=-.25 l
+> owlo=-.3125 Improving lower CL 
+psi =    -.28125 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-.2
+> 8125)  toff(__000007) ton(__000008) toffmax1(0) tonmax0(0) noipe noipecens notrace endstudy(.) is
+> recens(__000006) debug
+Z =  1.6850703  esthi=-.14648438 estlo=-.1474609375 upphi=.001953125 upplo=.0009765625 lowhi=-.2812
+> 5 lowlo=-.3125 Improving lower CL 
+psi =   -.296875 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-.2
+> 96875)  toff(__000007) ton(__000008) toffmax1(0) tonmax0(0) noipe noipecens notrace endstudy(.) i
+> srecens(__000006) debug
+Z =  1.8876287  esthi=-.14648438 estlo=-.1474609375 upphi=.001953125 upplo=.0009765625 lowhi=-.2968
+> 75 lowlo=-.3125 Improving lower CL 
+psi =  -.3046875 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-.3
+> 046875)  toff(__000007) ton(__000008) toffmax1(0) tonmax0(0) noipe noipecens notrace endstudy(.) 
+> isrecens(__000006) debug
+Z =  1.9725277  esthi=-.14648438 estlo=-.1474609375 upphi=.001953125 upplo=.0009765625 lowhi=-.2968
+> 75 lowlo=-.3046875 Improving lower CL 
+psi =  -.3007813 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-.3
+> 0078125)  toff(__000007) ton(__000008) toffmax1(0) tonmax0(0) noipe noipecens notrace endstudy(.)
+>  isrecens(__000006) debug
+Z =  1.9526524  esthi=-.14648438 estlo=-.1474609375 upphi=.001953125 upplo=.0009765625 lowhi=-.3007
+> 8125 lowlo=-.3046875 Improving lower CL 
+psi =  -.3027344 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-.3
+> 02734375)  toff(__000007) ton(__000008) toffmax1(0) tonmax0(0) noipe noipecens notrace endstudy(.
+> ) isrecens(__000006) debug
+Z =  1.9619377  esthi=-.14648438 estlo=-.1474609375 upphi=.001953125 upplo=.0009765625 lowhi=-.3007
+> 8125 lowlo=-.302734375 Improving lower CL 
+psi =  -.3017578 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-.3
+> 017578125)  toff(__000007) ton(__000008) toffmax1(0) tonmax0(0) noipe noipecens notrace endstudy(
+> .) isrecens(__000006) debug
+Z =  1.9607912  esthi=-.14648438 estlo=-.1474609375 upphi=.001953125 upplo=.0009765625 lowhi=-.3007
+> 8125 lowlo=-.3017578125 
+FINISH!!! 
+
+file _strbee_savedta.dta saved
+
+strbee.Output using _strbee_savedta, level(95) debug graph(title(ITT analysis) name(zgraph_itt, rep
+> lace))
+Loading results file _strbee_savedta
+----------------------------------------------------------------
+Estimating psi from accelerated life model
+----------------------------------------------------------------
+imm=0                  500 subjects, 169 events, 0 switches
+imm=1                  500 subjects, 143 events, 0 switches
+Method                 Robins-Tsiatis method
+Randomised group       imm
+Test                   logrank
+   adjusted for        -
+   stratified by       -
+Switch in arm 0        -
+Switch in arm 1        -
+Treatment variable     imm
+End of study variable  none
+Recensoring options    toffmax1(0) tonmax0(0)
+Results file           _strbee_savedta
+
+Results for log acceleration ratio psi
+----------------------------------------------------------------
+                psi           P-value    [95% Conf. interval]
+----------------------------------------------------------------
+Best            -.1471082     0.056      -.3016586    .0018602
+lower bound     -.1474609                -.3017578    .0009766
+upper bound     -.1464844                -.3007813    .0019531
+----------------------------------------------------------------
+
+. strbee imm, xo0(xoyrs xo)
+test() not specified: assumed test(logrank)
+Warning: you have censored data - specify endstudy() to avoid bias
+Searching by interval bisection...............................
+file _strbee_savedta.dta saved
+
+----------------------------------------------------------------
+Estimating psi from accelerated life model
+----------------------------------------------------------------
+imm=0                  500 subjects, 169 events, 189 switches
+imm=1                  500 subjects, 143 events, 0 switches
+Method                 Robins-Tsiatis method
+Randomised group       imm
+Test                   logrank
+   adjusted for        -
+   stratified by       -
+Switch in arm 0        xoyrs xo
+Switch in arm 1        -
+Treatment variable     imm
+End of study variable  none
+Recensoring options    toffmax1(0)
+Results file           _strbee_savedta
+
+Results for log acceleration ratio psi
+----------------------------------------------------------------
+                psi           P-value    [95% Conf. interval]
+----------------------------------------------------------------
+Best            -.1848511     0.056      -.3668004    .0043817
+lower bound     -.1855469                -.3671875    .0039063
+upper bound     -.1845703                -.3662109    .0048828
+----------------------------------------------------------------
+
+. strbee imm, xo0(xoyrs xo) 
+test() not specified: assumed test(logrank)
+Warning: you have censored data - specify endstudy() to avoid bias
+Searching by interval bisection...............................
+file _strbee_savedta.dta saved
+
+----------------------------------------------------------------
+Estimating psi from accelerated life model
+----------------------------------------------------------------
+imm=0                  500 subjects, 169 events, 189 switches
+imm=1                  500 subjects, 143 events, 0 switches
+Method                 Robins-Tsiatis method
+Randomised group       imm
+Test                   logrank
+   adjusted for        -
+   stratified by       -
+Switch in arm 0        xoyrs xo
+Switch in arm 1        -
+Treatment variable     imm
+End of study variable  none
+Recensoring options    toffmax1(0)
+Results file           _strbee_savedta
+
+Results for log acceleration ratio psi
+----------------------------------------------------------------
+                psi           P-value    [95% Conf. interval]
+----------------------------------------------------------------
+Best            -.1848511     0.056      -.3668004    .0043817
+lower bound     -.1855469                -.3671875    .0039063
+upper bound     -.1845703                -.3662109    .0048828
+----------------------------------------------------------------
+
+. strbee imm, xo0(xoyrs xo) endstudy(cens) 
+test() not specified: assumed test(logrank)
+Searching by interval bisection...............................
+file _strbee_savedta.dta saved
+
+----------------------------------------------------------------
+Estimating psi from accelerated life model
+----------------------------------------------------------------
+imm=0                  500 subjects, 169 events, 189 switches
+imm=1                  500 subjects, 143 events, 0 switches
+Method                 Robins-Tsiatis method
+Randomised group       imm
+Test                   logrank
+   adjusted for        -
+   stratified by       -
+Switch in arm 0        xoyrs xo
+Switch in arm 1        -
+Treatment variable     imm
+End of study variable  censyrs
+Recensoring options    toffmax1(0)
+Results file           _strbee_savedta
+
+Results for log acceleration ratio psi
+----------------------------------------------------------------
+                psi           P-value    [95% Conf. interval]
+----------------------------------------------------------------
+Best            -.1811583     0.056      -.3498619    .0019982
+lower bound     -.1816406                -.3505859    .0019531
+upper bound     -.1806641                -.3496094    .0029297
+----------------------------------------------------------------
+
+. local true -0.18116
+
+. assert abs(r(psi) - (`true')) < 1E-5
+
+. 
+. * Different tests
+. foreach test in stcox logrank wilcoxon tware peto "fh(1 1)" ///
+>         exponential gompertz loglogistic weibull lognormal { // gamma fails to converge
+  2.     dicmd strbee imm, xo0(xoyrs xo) endstudy(cens) test(`test') strata(stratum)
+  3.         assert r(psi)>-0.25 & r(psi)<-0.15
+  4. }
+strbee imm, xo0(xoyrs xo) endstudy(cens) test(stcox) strata(stratum)
+Searching by interval bisection...............................
+file _strbee_savedta.dta saved
+
+----------------------------------------------------------------
+Estimating psi from accelerated life model
+----------------------------------------------------------------
+imm=0                  500 subjects, 169 events, 189 switches
+imm=1                  500 subjects, 143 events, 0 switches
+Method                 Robins-Tsiatis method
+Randomised group       imm
+Test                   stcox
+   adjusted for        -
+   stratified by       stratum
+Switch in arm 0        xoyrs xo
+Switch in arm 1        -
+Treatment variable     imm
+End of study variable  censyrs
+Recensoring options    toffmax1(0)
+Results file           _strbee_savedta
+
+Results for log acceleration ratio psi
+----------------------------------------------------------------
+                psi           P-value    [95% Conf. interval]
+----------------------------------------------------------------
+Best            -.1813857     0.054      -.3499175    .0016762
+lower bound     -.1816406                -.3505859    .0009766
+upper bound     -.1806641                -.3496094    .0019531
+----------------------------------------------------------------
+strbee imm, xo0(xoyrs xo) endstudy(cens) test(logrank) strata(stratum)
+Searching by interval bisection...............................
+file _strbee_savedta.dta saved
+
+----------------------------------------------------------------
+Estimating psi from accelerated life model
+----------------------------------------------------------------
+imm=0                  500 subjects, 169 events, 189 switches
+imm=1                  500 subjects, 143 events, 0 switches
+Method                 Robins-Tsiatis method
+Randomised group       imm
+Test                   logrank
+   adjusted for        -
+   stratified by       stratum
+Switch in arm 0        xoyrs xo
+Switch in arm 1        -
+Treatment variable     imm
+End of study variable  censyrs
+Recensoring options    toffmax1(0)
+Results file           _strbee_savedta
+
+Results for log acceleration ratio psi
+----------------------------------------------------------------
+                psi           P-value    [95% Conf. interval]
+----------------------------------------------------------------
+Best            -.1813857     0.054       -.349893    .0015737
+lower bound     -.1816406                -.3505859    .0009766
+upper bound     -.1806641                -.3496094    .0019531
+----------------------------------------------------------------
+strbee imm, xo0(xoyrs xo) endstudy(cens) test(wilcoxon) strata(stratum)
+Searching by interval bisection...............................
+file _strbee_savedta.dta saved
+
+----------------------------------------------------------------
+Estimating psi from accelerated life model
+----------------------------------------------------------------
+imm=0                  500 subjects, 169 events, 189 switches
+imm=1                  500 subjects, 143 events, 0 switches
+Method                 Robins-Tsiatis method
+Randomised group       imm
+Test                   wilcoxon
+   adjusted for        -
+   stratified by       stratum
+Switch in arm 0        xoyrs xo
+Switch in arm 1        -
+Treatment variable     imm
+End of study variable  censyrs
+Recensoring options    toffmax1(0)
+Results file           _strbee_savedta
+
+Results for log acceleration ratio psi
+----------------------------------------------------------------
+                psi           P-value    [95% Conf. interval]
+----------------------------------------------------------------
+Best            -.1610289     0.092      -.3497933    .0255946
+lower bound     -.1611328                -.3505859    .0253906
+upper bound     -.1601563                -.3496094    .0263672
+----------------------------------------------------------------
+strbee imm, xo0(xoyrs xo) endstudy(cens) test(tware) strata(stratum)
+Searching by interval bisection...............................
+file _strbee_savedta.dta saved
+
+----------------------------------------------------------------
+Estimating psi from accelerated life model
+----------------------------------------------------------------
+imm=0                  500 subjects, 169 events, 189 switches
+imm=1                  500 subjects, 143 events, 0 switches
+Method                 Robins-Tsiatis method
+Randomised group       imm
+Test                   tware
+   adjusted for        -
+   stratified by       stratum
+Switch in arm 0        xoyrs xo
+Switch in arm 1        -
+Treatment variable     imm
+End of study variable  censyrs
+Recensoring options    toffmax1(0)
+Results file           _strbee_savedta
+
+Results for log acceleration ratio psi
+----------------------------------------------------------------
+                psi           P-value    [95% Conf. interval]
+----------------------------------------------------------------
+Best            -.1684662     0.076      -.3496734    .0131296
+lower bound     -.1689453                -.3505859    .0126953
+upper bound     -.1679688                -.3496094    .0136719
+----------------------------------------------------------------
+strbee imm, xo0(xoyrs xo) endstudy(cens) test(peto) strata(stratum)
+Searching by interval bisection...............................
+file _strbee_savedta.dta saved
+
+----------------------------------------------------------------
+Estimating psi from accelerated life model
+----------------------------------------------------------------
+imm=0                  500 subjects, 169 events, 189 switches
+imm=1                  500 subjects, 143 events, 0 switches
+Method                 Robins-Tsiatis method
+Randomised group       imm
+Test                   peto
+   adjusted for        -
+   stratified by       stratum
+Switch in arm 0        xoyrs xo
+Switch in arm 1        -
+Treatment variable     imm
+End of study variable  censyrs
+Recensoring options    toffmax1(0)
+Results file           _strbee_savedta
+
+Results for log acceleration ratio psi
+----------------------------------------------------------------
+                psi           P-value    [95% Conf. interval]
+----------------------------------------------------------------
+Best            -.1706569     0.062      -.3497129    .0064724
+lower bound     -.1708984                -.3505859    .0058594
+upper bound     -.1699219                -.3496094    .0068359
+----------------------------------------------------------------
+strbee imm, xo0(xoyrs xo) endstudy(cens) test(fh(1 1)) strata(stratum)
+Searching by interval bisection...............................
+file _strbee_savedta.dta saved
+
+----------------------------------------------------------------
+Estimating psi from accelerated life model
+----------------------------------------------------------------
+imm=0                  500 subjects, 169 events, 189 switches
+imm=1                  500 subjects, 143 events, 0 switches
+Method                 Robins-Tsiatis method
+Randomised group       imm
+Test                   fh(1 1)
+   adjusted for        -
+   stratified by       stratum
+Switch in arm 0        xoyrs xo
+Switch in arm 1        -
+Treatment variable     imm
+End of study variable  censyrs
+Recensoring options    toffmax1(0)
+Results file           _strbee_savedta
+
+Results for log acceleration ratio psi
+----------------------------------------------------------------
+                psi           P-value    [95% Conf. interval]
+----------------------------------------------------------------
+Best            -.2388916     0.070      -.3983215    .0116109
+lower bound     -.2392578                -.3984375    .0107422
+upper bound     -.2382813                -.3974609    .0117188
+----------------------------------------------------------------
+strbee imm, xo0(xoyrs xo) endstudy(cens) test(exponential) strata(stratum)
+Searching by interval bisection...............................
+file _strbee_savedta.dta saved
+
+----------------------------------------------------------------
+Estimating psi from accelerated life model
+----------------------------------------------------------------
+imm=0                  500 subjects, 169 events, 189 switches
+imm=1                  500 subjects, 143 events, 0 switches
+Method                 Robins-Tsiatis method
+Randomised group       imm
+Test                   exponential
+   adjusted for        -
+   stratified by       stratum
+Switch in arm 0        xoyrs xo
+Switch in arm 1        -
+Treatment variable     imm
+End of study variable  censyrs
+Recensoring options    toffmax1(0)
+Results file           _strbee_savedta
+
+Results for log acceleration ratio psi
+----------------------------------------------------------------
+                psi           P-value    [95% Conf. interval]
+----------------------------------------------------------------
+Best            -.1813571     0.071      -.3501786    .0179897
+lower bound     -.1816406                -.3505859    .0175781
+upper bound     -.1806641                -.3496094    .0185547
+----------------------------------------------------------------
+strbee imm, xo0(xoyrs xo) endstudy(cens) test(gompertz) strata(stratum)
+Searching by interval bisection...............................
+file _strbee_savedta.dta saved
+
+----------------------------------------------------------------
+Estimating psi from accelerated life model
+----------------------------------------------------------------
+imm=0                  500 subjects, 169 events, 189 switches
+imm=1                  500 subjects, 143 events, 0 switches
+Method                 Robins-Tsiatis method
+Randomised group       imm
+Test                   gompertz
+   adjusted for        -
+   stratified by       stratum
+Switch in arm 0        xoyrs xo
+Switch in arm 1        -
+Treatment variable     imm
+End of study variable  censyrs
+Recensoring options    toffmax1(0)
+Results file           _strbee_savedta
+
+Results for log acceleration ratio psi
+----------------------------------------------------------------
+                psi           P-value    [95% Conf. interval]
+----------------------------------------------------------------
+Best            -.1861869     0.054      -.3499475    .0026185
+lower bound     -.1865234                -.3505859    .0019531
+upper bound     -.1855469                -.3496094    .0029297
+----------------------------------------------------------------
+strbee imm, xo0(xoyrs xo) endstudy(cens) test(loglogistic) strata(stratum)
+Searching by interval bisection...............................
+file _strbee_savedta.dta saved
+
+----------------------------------------------------------------
+Estimating psi from accelerated life model
+----------------------------------------------------------------
+imm=0                  500 subjects, 169 events, 189 switches
+imm=1                  500 subjects, 143 events, 0 switches
+Method                 Robins-Tsiatis method
+Randomised group       imm
+Test                   loglogistic
+   adjusted for        -
+   stratified by       stratum
+Switch in arm 0        xoyrs xo
+Switch in arm 1        -
+Treatment variable     imm
+End of study variable  censyrs
+Recensoring options    toffmax1(0)
+Results file           _strbee_savedta
+
+Results for log acceleration ratio psi
+----------------------------------------------------------------
+                psi           P-value    [95% Conf. interval]
+----------------------------------------------------------------
+Best            -.1813584     0.056      -.3501771    .0039729
+lower bound     -.1816406                -.3505859    .0039063
+upper bound     -.1806641                -.3496094    .0048828
+----------------------------------------------------------------
+strbee imm, xo0(xoyrs xo) endstudy(cens) test(weibull) strata(stratum)
+Searching by interval bisection............................
+file _strbee_savedta.dta saved
+
+----------------------------------------------------------------
+Estimating psi from accelerated life model
+----------------------------------------------------------------
+imm=0                  500 subjects, 169 events, 189 switches
+imm=1                  500 subjects, 143 events, 0 switches
+Method                 Robins-Tsiatis method
+Randomised group       imm
+Test                   weibull
+   adjusted for        -
+   stratified by       stratum
+Switch in arm 0        xoyrs xo
+Switch in arm 1        -
+Treatment variable     imm
+End of study variable  censyrs
+Recensoring options    toffmax1(0)
+Results file           _strbee_savedta
+
+Results for log acceleration ratio psi
+----------------------------------------------------------------
+                psi           P-value    [95% Conf. interval]
+----------------------------------------------------------------
+Best            -.1910699     0.049      -.3503324   -.0028031
+lower bound     -.1914063                -.3505859   -.0029297
+upper bound     -.1904297                -.3496094   -.0019531
+----------------------------------------------------------------
+strbee imm, xo0(xoyrs xo) endstudy(cens) test(lognormal) strata(stratum)
+Searching by interval bisection............................
+file _strbee_savedta.dta saved
+
+----------------------------------------------------------------
+Estimating psi from accelerated life model
+----------------------------------------------------------------
+imm=0                  500 subjects, 169 events, 189 switches
+imm=1                  500 subjects, 143 events, 0 switches
+Method                 Robins-Tsiatis method
+Randomised group       imm
+Test                   lognormal
+   adjusted for        -
+   stratified by       stratum
+Switch in arm 0        xoyrs xo
+Switch in arm 1        -
+Treatment variable     imm
+End of study variable  censyrs
+Recensoring options    toffmax1(0)
+Results file           _strbee_savedta
+
+Results for log acceleration ratio psi
+----------------------------------------------------------------
+                psi           P-value    [95% Conf. interval]
+----------------------------------------------------------------
+Best            -.2131438     0.039      -.3745592   -.0164108
+lower bound     -.2138672                    -.375   -.0166016
+upper bound     -.2128906                -.3740234    -.015625
+----------------------------------------------------------------
+
+. 
+. * Check strbee doesn't change the data
+. cf _all using z
+
+. 
+. * Different estimation methods
+. strbee imm, psimin(-4) psimax(2) psistep(0.1) xo0(xoyrs xo) ///
+>     endstudy(cens) savedta(zz, replace)
+Warning: file zz.dta not found
+test() not specified: assumed test(logrank)
+Searching by grid search.............................................................
+(file zz.dta not found)
+file zz.dta saved
+
+----------------------------------------------------------------
+Estimating psi from accelerated life model
+----------------------------------------------------------------
+imm=0                  500 subjects, 169 events, 189 switches
+imm=1                  500 subjects, 143 events, 0 switches
+Method                 Robins-Tsiatis method
+Randomised group       imm
+Test                   logrank
+   adjusted for        -
+   stratified by       -
+Switch in arm 0        xoyrs xo
+Switch in arm 1        -
+Treatment variable     imm
+End of study variable  censyrs
+Recensoring options    toffmax1(0)
+Results file           zz.dta
+
+Results for log acceleration ratio psi
+----------------------------------------------------------------
+                psi           P-value    [95% Conf. interval]
+----------------------------------------------------------------
+Best            -.1892681     0.056      -.3646706    .0056602
+lower bound           -.2                      -.4           0
+upper bound           -.1                      -.3          .1
+----------------------------------------------------------------
+
+. strbee imm, psimin(2) psimax(4) psistep(0.1) xo0(xoyrs xo) ///
+>     endstudy(cens) savedta(zz, append)
+test() not specified: assumed test(logrank)
+Searching by grid search.....................Appending results from zz.dta
+
+1 duplicate records deleted
+
+file zz.dta saved
+
+----------------------------------------------------------------
+Estimating psi from accelerated life model
+----------------------------------------------------------------
+imm=0                  500 subjects, 169 events, 189 switches
+imm=1                  500 subjects, 143 events, 0 switches
+Method                 Robins-Tsiatis method
+Randomised group       imm
+Test                   logrank
+   adjusted for        -
+   stratified by       -
+Switch in arm 0        xoyrs xo
+Switch in arm 1        -
+Treatment variable     imm
+End of study variable  censyrs
+Recensoring options    toffmax1(0)
+Results file           zz.dta
+
+Results for log acceleration ratio psi
+----------------------------------------------------------------
+                psi           P-value    [95% Conf. interval]
+----------------------------------------------------------------
+Best            -.1892681     0.056      -.3646706    .0056602
+lower bound           -.2                      -.4           0
+upper bound           -.1                      -.3          .1
+----------------------------------------------------------------
+
+. strbee imm, ipe psistart(-1) xo0(xoyrs xo) endstudy(cens)
+test() not specified: assumed test(weibull)
+Searching by Branson's IPE.....Convergence achieved with step < 10^-3
+
+file _strbee_savedta.dta saved
+
+----------------------------------------------------------------
+Estimating psi from accelerated life model
+----------------------------------------------------------------
+imm=0                  500 subjects, 169 events, 189 switches
+imm=1                  500 subjects, 143 events, 0 switches
+Method                 Branson's IPE
+Randomised group       imm
+Test                   weibull
+   adjusted for        -
+   stratified by       -
+Switch in arm 0        xoyrs xo
+Switch in arm 1        -
+Treatment variable     imm
+End of study variable  censyrs
+Recensoring options    toffmax1(0)
+Results file           _strbee_savedta
+
+Results for log acceleration ratio psi
+----------------------------------------------------------------
+                psi           P-value    [95% Conf. interval]
+----------------------------------------------------------------
+Best            -.1851455         .      -.3391444   -.0311466
+----------------------------------------------------------------
+Warning: standard error and confidence interval do not allow for switch
+Use bootstrap to get better standard error and confidence interval
+
+. strbee imm, ipe ipecens psistart(-1) xo0(xoyrs xo) endstudy(cens)
+test() not specified: assumed test(weibull)
+Searching by Branson's IPE.....Convergence achieved with step < 10^-3
+
+file _strbee_savedta.dta saved
+
+----------------------------------------------------------------
+Estimating psi from accelerated life model
+----------------------------------------------------------------
+imm=0                  500 subjects, 169 events, 189 switches
+imm=1                  500 subjects, 143 events, 0 switches
+Method                 Branson's IPE
+Randomised group       imm
+Test                   weibull
+   adjusted for        -
+   stratified by       -
+Switch in arm 0        xoyrs xo
+Switch in arm 1        -
+Treatment variable     imm
+End of study variable  censyrs
+Recensoring options    toffmax1(0)
+Results file           _strbee_savedta
+
+Results for log acceleration ratio psi
+----------------------------------------------------------------
+                psi           P-value    [95% Conf. interval]
+----------------------------------------------------------------
+Best            -.1762157         .      -.3260101   -.0264212
+----------------------------------------------------------------
+Warning: standard error and confidence interval do not allow for switch
+Use bootstrap to get better standard error and confidence interval
+
+. 
+. * Many options 
+. strbee imm, xo0(xoyrs xo) savedta(zz,replace) endstudy(cens) gen(u3) ///
+>     zgraph(ytitle(Z statistic) title("Crossover-adjusted analysis, no recensoring") ///
+>                 name(zgraph_zz, replace)) ///
+>     level(99.5) debug hr tol(6) maxiter(50) test(weibull) adjvars(x) strata(stratum) ///
+>     kmgraph(title(KM graph) name(KMgraph, replace) showall ///
+>                 lpattern(dash dot) lcolor(green red blue)) 
+Estimation and output syntax
+Gestimate imm  , hr(run) xo0(xoyrs xo) savedta(zz,replace) endstudy(cens) gen(u3) zgraph(ytitle(Z s
+> tatistic) title("Crossover-adjusted analysis, no recensoring")                 name(zgraph_zz, re
+> place)) level(99.5) tol(6) maxiter(50) test(weibull) adjvars(x) strata(stratum) kmgraph(title(KM 
+> graph) name(KMgraph, replace) showall                 lpattern(dash dot) lcolor(green red blue)) 
+> debug
+Searching by interval bisection
+psi =          0 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(0) 
+>  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs) isrecens(__00
+> 0007) debug
+Z = -1.8744892    psi-hat= -0.1439212 esthi=0 estlo=. upphi=. upplo=0 lowhi=0 lowlo=. Extending psi
+>  range to left 
+psi =         -1 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-1)
+>   toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs) isrecens(__0
+> 00007) debug
+Z =  6.4812816    psi-hat=  0.7918480 esthi=0 estlo=-1 upphi=. upplo=0 lowhi=0 lowlo=-1 
+psi =          1 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(1) 
+>  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs) isrecens(__00
+> 0007) debug
+Z = -1.112e+01    psi-hat= -0.9697947 esthi=0 estlo=-1 upphi=1 upplo=0 lowhi=0 lowlo=-1 
+psi =        -.5 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-.5
+> )  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs) isrecens(__
+> 000007) debug
+Z =  3.5684156    psi-hat=  0.3279438 esthi=0 estlo=-.5 upphi=1 upplo=0 lowhi=0 lowlo=-.5 Improving
+>  estimate 
+psi =       -.25 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-.2
+> 5)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs) isrecens(_
+> _000007) debug
+Z =  0.6073410    psi-hat=  0.0477721 esthi=0 estlo=-.25 upphi=1 upplo=0 lowhi=-.25 lowlo=-.5 Impro
+> ving estimate 
+psi =      -.125 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-.1
+> 25)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs) isrecens(
+> __000007) debug
+Z = -0.7129879    psi-hat= -0.0548526 esthi=-.125 estlo=-.25 upphi=1 upplo=0 lowhi=-.25 lowlo=-.5 I
+> mproving estimate 
+psi =     -.1875 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-.1
+> 875)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs) isrecens
+> (__000007) debug
+Z =  0.0515381    psi-hat=  0.0040339 esthi=-.125 estlo=-.1875 upphi=1 upplo=0 lowhi=-.25 lowlo=-.5
+>  Improving estimate 
+psi =    -.15625 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-.1
+> 5625)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs) isrecen
+> s(__000007) debug
+Z = -0.2443938    psi-hat= -0.0190841 esthi=-.15625 estlo=-.1875 upphi=1 upplo=0 lowhi=-.25 lowlo=-
+> .5 Improving estimate 
+psi =   -.171875 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-.1
+> 71875)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs) isrece
+> ns(__000007) debug
+Z = -0.0425075    psi-hat= -0.0033327 esthi=-.171875 estlo=-.1875 upphi=1 upplo=0 lowhi=-.25 lowlo=
+> -.5 Improving estimate 
+psi =  -.1796875 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-.1
+> 796875)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs) isrec
+> ens(__000007) debug
+Z = -0.0281974    psi-hat= -0.0022017 esthi=-.1796875 estlo=-.1875 upphi=1 upplo=0 lowhi=-.25 lowlo
+> =-.5 Improving estimate 
+psi =  -.1835938 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-.1
+> 8359375)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs) isre
+> cens(__000007) debug
+Z =  0.0444212    psi-hat=  0.0034840 esthi=-.1796875 estlo=-.18359375 upphi=1 upplo=0 lowhi=-.25 l
+> owlo=-.5 Improving estimate 
+psi =  -.1816406 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-.1
+> 81640625)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs) isr
+> ecens(__000007) debug
+Z =  0.0408828    psi-hat=  0.0032098 esthi=-.1796875 estlo=-.181640625 upphi=1 upplo=0 lowhi=-.25 
+> lowlo=-.5 Improving estimate 
+psi =  -.1806641 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-.1
+> 806640625)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs) is
+> recens(__000007) debug
+Z = -0.0263933    psi-hat= -0.0020597 esthi=-.18066406 estlo=-.181640625 upphi=1 upplo=0 lowhi=-.25
+>  lowlo=-.5 Improving estimate 
+psi =  -.1811523 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-.1
+> 8115234375)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs) i
+> srecens(__000007) debug
+Z = -0.0254899    psi-hat= -0.0019887 esthi=-.18115234 estlo=-.181640625 upphi=1 upplo=0 lowhi=-.25
+>  lowlo=-.5 Improving estimate 
+psi =  -.1813965 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-.1
+> 81396484375)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs) 
+> isrecens(__000007) debug
+Z =  0.0404414    psi-hat=  0.0031755 esthi=-.18115234 estlo=-.181396484375 upphi=1 upplo=0 lowhi=-
+> .25 lowlo=-.5 Improving estimate 
+psi =  -.1812744 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-.1
+> 812744140625)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs)
+>  isrecens(__000007) debug
+Z =  0.0402208    psi-hat=  0.0031584 esthi=-.18115234 estlo=-.1812744140625 upphi=1 upplo=0 lowhi=
+> -.25 lowlo=-.5 Improving estimate 
+psi =  -.1812134 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-.1
+> 8121337890625)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs
+> ) isrecens(__000007) debug
+Z =  0.0401105    psi-hat=  0.0031499 esthi=-.18115234 estlo=-.18121337890625 upphi=1 upplo=0 lowhi
+> =-.25 lowlo=-.5 Improving estimate 
+psi =  -.1811829 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-.1
+> 81182861328125)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyr
+> s) isrecens(__000007) debug
+Z =  0.0400554    psi-hat=  0.0031456 esthi=-.18115234 estlo=-.181182861328125 upphi=1 upplo=0 lowh
+> i=-.25 lowlo=-.5 Improving estimate 
+psi =  -.1811676 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-.1
+> 811676025390625)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censy
+> rs) isrecens(__000007) debug
+Z = -0.0254616    psi-hat= -0.0019865 esthi=-.1811676 estlo=-.181182861328125 upphi=1 upplo=0 lowhi
+> =-.25 lowlo=-.5 Improving estimate 
+psi =  -.1811752 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-.1
+> 811752319335938)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censy
+> rs) isrecens(__000007) debug
+Z = -0.0254475    psi-hat= -0.0019854 esthi=-.18117523 estlo=-.181182861328125 upphi=1 upplo=0 lowh
+> i=-.25 lowlo=-.5 Improving estimate 
+psi =   -.181179 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-.1
+> 811790466308594)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censy
+> rs) isrecens(__000007) debug
+Z =  0.0400485    psi-hat=  0.0031450 esthi=-.18117523 estlo=-.1811790466308594 upphi=1 upplo=0 low
+> hi=-.25 lowlo=-.5 Improving estimate 
+psi =  -.1811771 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-.1
+> 811771392822266)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censy
+> rs) isrecens(__000007) debug
+Z = -0.0254440    psi-hat= -0.0019851 esthi=-.18117714 estlo=-.1811790466308594 upphi=1 upplo=0 low
+> hi=-.25 lowlo=-.5 Improving estimate 
+psi =  -.1811781 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-.1
+> 81178092956543)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyr
+> s) isrecens(__000007) debug
+Z =  0.0400468    psi-hat=  0.0031449 esthi=-.18117714 estlo=-.181178092956543 upphi=1 upplo=0 lowh
+> i=-.25 lowlo=-.5 Improving upper CL 
+psi =         .5 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(.5)
+>   toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs) isrecens(__0
+> 00007) debug
+Z = -6.7514692    psi-hat= -0.5520859 esthi=-.18117714 estlo=-.181178092956543 upphi=.5 upplo=0 low
+> hi=-.25 lowlo=-.5 Improving upper CL 
+psi =        .25 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(.25
+> )  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs) isrecens(__
+> 000007) debug
+Z = -4.2814806    psi-hat= -0.3410976 esthi=-.18117714 estlo=-.181178092956543 upphi=.25 upplo=0 lo
+> whi=-.25 lowlo=-.5 Improving upper CL 
+psi =       .125 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(.12
+> 5)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs) isrecens(_
+> _000007) debug
+Z = -2.9420724    psi-hat= -0.2323443 esthi=-.18117714 estlo=-.181178092956543 upphi=.125 upplo=0 l
+> owhi=-.25 lowlo=-.5 Improving upper CL 
+psi =      .0625 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(.06
+> 25)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs) isrecens(
+> __000007) debug
+Z = -2.4253773    psi-hat= -0.1889801 esthi=-.18117714 estlo=-.181178092956543 upphi=.125 upplo=.06
+> 25 lowhi=-.25 lowlo=-.5 Improving upper CL 
+psi =     .09375 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(.09
+> 375)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs) isrecens
+> (__000007) debug
+Z = -2.6812172    psi-hat= -0.2103902 esthi=-.18117714 estlo=-.181178092956543 upphi=.125 upplo=.09
+> 375 lowhi=-.25 lowlo=-.5 Improving upper CL 
+psi =    .109375 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(.10
+> 9375)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs) isrecen
+> s(__000007) debug
+Z = -2.8130476    psi-hat= -0.2217574 esthi=-.18117714 estlo=-.181178092956543 upphi=.109375 upplo=
+> .09375 lowhi=-.25 lowlo=-.5 Improving upper CL 
+psi =   .1015625 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(.10
+> 15625)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs) isrece
+> ns(__000007) debug
+Z = -2.7162690    psi-hat= -0.2142101 esthi=-.18117714 estlo=-.181178092956543 upphi=.109375 upplo=
+> .1015625 lowhi=-.25 lowlo=-.5 Improving upper CL 
+psi =   .1054688 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(.10
+> 546875)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs) isrec
+> ens(__000007) debug
+Z = -2.7646528    psi-hat= -0.2179841 esthi=-.18117714 estlo=-.181178092956543 upphi=.109375 upplo=
+> .10546875 lowhi=-.25 lowlo=-.5 Improving upper CL 
+psi =   .1074219 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(.10
+> 7421875)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs) isre
+> cens(__000007) debug
+Z = -2.7888488    psi-hat= -0.2198708 esthi=-.18117714 estlo=-.181178092956543 upphi=.109375 upplo=
+> .107421875 lowhi=-.25 lowlo=-.5 Improving upper CL 
+psi =   .1083984 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(.10
+> 83984375)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs) isr
+> ecens(__000007) debug
+Z = -2.8009478    psi-hat= -0.2208141 esthi=-.18117714 estlo=-.181178092956543 upphi=.109375 upplo=
+> .1083984375 lowhi=-.25 lowlo=-.5 Improving upper CL 
+psi =   .1088867 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(.10
+> 888671875)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs) is
+> recens(__000007) debug
+Z = -2.8069976    psi-hat= -0.2212858 esthi=-.18117714 estlo=-.181178092956543 upphi=.109375 upplo=
+> .10888671875 lowhi=-.25 lowlo=-.5 Improving upper CL 
+psi =   .1091309 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(.10
+> 9130859375)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs) i
+> srecens(__000007) debug
+Z = -2.8100226    psi-hat= -0.2215216 esthi=-.18117714 estlo=-.181178092956543 upphi=.109130859375 
+> upplo=.10888671875 lowhi=-.25 lowlo=-.5 Improving upper CL 
+psi =   .1090088 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(.10
+> 90087890625)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs) 
+> isrecens(__000007) debug
+Z = -2.8085101    psi-hat= -0.2214037 esthi=-.18117714 estlo=-.181178092956543 upphi=.1090087890625
+>  upplo=.10888671875 lowhi=-.25 lowlo=-.5 Improving upper CL 
+psi =   .1089478 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(.10
+> 894775390625)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs)
+>  isrecens(__000007) debug
+Z = -2.8077539    psi-hat= -0.2213447 esthi=-.18117714 estlo=-.181178092956543 upphi=.1089477539062
+> 5 upplo=.10888671875 lowhi=-.25 lowlo=-.5 Improving upper CL 
+psi =   .1089172 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(.10
+> 8917236328125)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs
+> ) isrecens(__000007) debug
+Z = -2.8073757    psi-hat= -0.2213153 esthi=-.18117714 estlo=-.181178092956543 upphi=.1089172363281
+> 25 upplo=.10888671875 lowhi=-.25 lowlo=-.5 Improving upper CL 
+psi =    .108902 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(.10
+> 89019775390625)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyr
+> s) isrecens(__000007) debug
+Z = -2.8071867    psi-hat= -0.2213005 esthi=-.18117714 estlo=-.181178092956543 upphi=.1089019775390
+> 625 upplo=.10888671875 lowhi=-.25 lowlo=-.5 Improving upper CL 
+psi =   .1088943 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(.10
+> 88943481445313)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyr
+> s) isrecens(__000007) debug
+Z = -2.8070922    psi-hat= -0.2212931 esthi=-.18117714 estlo=-.181178092956543 upphi=.1088943481445
+> 313 upplo=.10888671875 lowhi=-.25 lowlo=-.5 Improving upper CL 
+psi =   .1088905 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(.10
+> 88905334472657)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyr
+> s) isrecens(__000007) debug
+Z = -2.8070449    psi-hat= -0.2212895 esthi=-.18117714 estlo=-.181178092956543 upphi=.1088905334472
+> 657 upplo=.10888671875 lowhi=-.25 lowlo=-.5 Improving upper CL 
+psi =   .1088886 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(.10
+> 88886260986328)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyr
+> s) isrecens(__000007) debug
+Z = -2.8070213    psi-hat= -0.2212876 esthi=-.18117714 estlo=-.181178092956543 upphi=.1088905334472
+> 657 upplo=.1088886260986328 lowhi=-.25 lowlo=-.5 Improving upper CL 
+psi =   .1088896 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(.10
+> 88895797729492)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyr
+> s) isrecens(__000007) debug
+Z = -2.8070331    psi-hat= -0.2212885 esthi=-.18117714 estlo=-.181178092956543 upphi=.1088905334472
+> 657 upplo=.1088895797729492 lowhi=-.25 lowlo=-.5 Improving lower CL 
+psi =      -.375 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-.3
+> 75)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs) isrecens(
+> __000007) debug
+Z =  2.3494384    psi-hat=  0.2013273 esthi=-.18117714 estlo=-.181178092956543 upphi=.1088905334472
+> 657 upplo=.1088895797729492 lowhi=-.375 lowlo=-.5 Improving lower CL 
+psi =     -.4375 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-.4
+> 375)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs) isrecens
+> (__000007) debug
+Z =  2.6972990    psi-hat=  0.2306874 esthi=-.18117714 estlo=-.181178092956543 upphi=.1088905334472
+> 657 upplo=.1088895797729492 lowhi=-.4375 lowlo=-.5 Improving lower CL 
+psi =    -.46875 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-.4
+> 6875)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs) isrecen
+> s(__000007) debug
+Z =  3.2483302    psi-hat=  0.2915170 esthi=-.18117714 estlo=-.181178092956543 upphi=.1088905334472
+> 657 upplo=.1088895797729492 lowhi=-.4375 lowlo=-.46875 Improving lower CL 
+psi =   -.453125 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-.4
+> 53125)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs) isrece
+> ns(__000007) debug
+Z =  2.8437614    psi-hat=  0.2453040 esthi=-.18117714 estlo=-.181178092956543 upphi=.1088905334472
+> 657 upplo=.1088895797729492 lowhi=-.4375 lowlo=-.453125 Improving lower CL 
+psi =  -.4453125 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-.4
+> 453125)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs) isrec
+> ens(__000007) debug
+Z =  2.7670056    psi-hat=  0.2373764 esthi=-.18117714 estlo=-.181178092956543 upphi=.1088905334472
+> 657 upplo=.1088895797729492 lowhi=-.4453125 lowlo=-.453125 Improving lower CL 
+psi =  -.4492188 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-.4
+> 4921875)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs) isre
+> cens(__000007) debug
+Z =  2.7722212    psi-hat=  0.2373947 esthi=-.18117714 estlo=-.181178092956543 upphi=.1088905334472
+> 657 upplo=.1088895797729492 lowhi=-.44921875 lowlo=-.453125 Improving lower CL 
+psi =  -.4511719 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-.4
+> 51171875)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs) isr
+> ecens(__000007) debug
+Z =  2.7748432    psi-hat=  0.2374046 esthi=-.18117714 estlo=-.181178092956543 upphi=.1088905334472
+> 657 upplo=.1088895797729492 lowhi=-.451171875 lowlo=-.453125 Improving lower CL 
+psi =  -.4521484 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-.4
+> 521484375)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs) is
+> recens(__000007) debug
+Z =  2.8424733    psi-hat=  0.2453033 esthi=-.18117714 estlo=-.181178092956543 upphi=.1088905334472
+> 657 upplo=.1088895797729492 lowhi=-.451171875 lowlo=-.4521484375 Improving lower CL 
+psi =  -.4516602 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-.4
+> 5166015625)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs) i
+> srecens(__000007) debug
+Z =  2.7755002    psi-hat=  0.2374072 esthi=-.18117714 estlo=-.181178092956543 upphi=.1088905334472
+> 657 upplo=.1088895797729492 lowhi=-.45166015625 lowlo=-.4521484375 Improving lower CL 
+psi =  -.4519043 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-.4
+> 51904296875)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs) 
+> isrecens(__000007) debug
+Z =  2.7758289    psi-hat=  0.2374085 esthi=-.18117714 estlo=-.181178092956543 upphi=.1088905334472
+> 657 upplo=.1088895797729492 lowhi=-.451904296875 lowlo=-.4521484375 Improving lower CL 
+psi =  -.4520264 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-.4
+> 520263671875)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs)
+>  isrecens(__000007) debug
+Z =  2.7759933    psi-hat=  0.2374091 esthi=-.18117714 estlo=-.181178092956543 upphi=.1088905334472
+> 657 upplo=.1088895797729492 lowhi=-.4520263671875 lowlo=-.4521484375 Improving lower CL 
+psi =  -.4520874 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-.4
+> 5208740234375)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs
+> ) isrecens(__000007) debug
+Z =  2.7760755    psi-hat=  0.2374095 esthi=-.18117714 estlo=-.181178092956543 upphi=.1088905334472
+> 657 upplo=.1088895797729492 lowhi=-.45208740234375 lowlo=-.4521484375 Improving lower CL 
+psi =  -.4521179 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-.4
+> 52117919921875)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyr
+> s) isrecens(__000007) debug
+Z =  2.7761166    psi-hat=  0.2374096 esthi=-.18117714 estlo=-.181178092956543 upphi=.1088905334472
+> 657 upplo=.1088895797729492 lowhi=-.452117919921875 lowlo=-.4521484375 Improving lower CL 
+psi =  -.4521332 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-.4
+> 521331787109375)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censy
+> rs) isrecens(__000007) debug
+Z =  2.7761372    psi-hat=  0.2374097 esthi=-.18117714 estlo=-.181178092956543 upphi=.1088905334472
+> 657 upplo=.1088895797729492 lowhi=-.4521331787109375 lowlo=-.4521484375 Improving lower CL 
+psi =  -.4521408 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-.4
+> 521408081054688)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censy
+> rs) isrecens(__000007) debug
+Z =  2.8424632    psi-hat=  0.2453033 esthi=-.18117714 estlo=-.181178092956543 upphi=.1088905334472
+> 657 upplo=.1088895797729492 lowhi=-.4521331787109375 lowlo=-.4521408081054688 Improving lower CL 
+psi =   -.452137 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-.4
+> 521369934082031)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censy
+> rs) isrecens(__000007) debug
+Z =  2.8424582    psi-hat=  0.2453033 esthi=-.18117714 estlo=-.181178092956543 upphi=.1088905334472
+> 657 upplo=.1088895797729492 lowhi=-.4521331787109375 lowlo=-.4521369934082031 Improving lower CL 
+psi =  -.4521351 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-.4
+> 521350860595703)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censy
+> rs) isrecens(__000007) debug
+Z =  2.8424557    psi-hat=  0.2453033 esthi=-.18117714 estlo=-.181178092956543 upphi=.1088905334472
+> 657 upplo=.1088895797729492 lowhi=-.4521331787109375 lowlo=-.4521350860595703 Improving lower CL 
+psi =  -.4521341 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-.4
+> 521341323852539)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censy
+> rs) isrecens(__000007) debug
+Z =  2.7761385    psi-hat=  0.2374097 esthi=-.18117714 estlo=-.181178092956543 upphi=.1088905334472
+> 657 upplo=.1088895797729492 lowhi=-.4521341323852539 lowlo=-.4521350860595703 
+FINISH!!! 
+
+file zz.dta saved
+
+strbee.Output using zz.dta, level(99.5) debug hr(run) gen(u3) zgraph(ytitle(Z statistic) title("Cro
+> ssover-adjusted analysis, no recensoring")                 name(zgraph_zz, replace)) kmgraph(titl
+> e(KM graph) name(KMgraph, replace) showall                 lpattern(dash dot) lcolor(green red bl
+> ue))
+Loading results file zz.dta
+----------------------------------------------------------------
+Estimating psi from accelerated life model
+----------------------------------------------------------------
+imm=0                  500 subjects, 169 events, 189 switches
+imm=1                  500 subjects, 143 events, 0 switches
+Method                 Robins-Tsiatis method
+Randomised group       imm
+Test                   weibull
+   adjusted for        x
+   stratified by       stratum
+Switch in arm 0        xoyrs xo
+Switch in arm 1        -
+Treatment variable     imm
+End of study variable  censyrs
+Recensoring options    toffmax1(0)
+Results file           zz.dta
+
+Results for log acceleration ratio psi
+----------------------------------------------------------------
+                psi           P-value    [99.5% Conf. interval]
+----------------------------------------------------------------
+Best            -.1811775     0.061      -.4521346    .1088896
+lower bound     -.1811781                -.4521351    .1088896
+upper bound     -.1811771                -.4521341    .1088905
+----------------------------------------------------------------
+Call: makeu , u(__00000A) du(__00000B) t(_t) dt(_d) treat(imm) psi(-.1811775097966688)  toff(__0000
+> 0D) ton(__00000E) toffmax1(0) recens(__00000C)   endstudy(censyrs) debug
+
+         |               Incidence     Number of   |------ Survival time -----|
+     imm | Time at risk       rate      subjects        25%       50%       75%
+---------+---------------------------------------------------------------------
+0 as obs |  947.3263925   .1783968           500   1.811433  2.902948         .
+1 as obs |  985.1731786   .1451521           500   1.980549         .         .
+0 if unt |  817.3788581   .1749495           500   1.748852         .         .
+1 if unt |  821.9174233   .1739834           500   1.652346         .         .
+0 if ful |  979.7331275   .1459581           500   2.096223         .         .
+1 if ful |  985.1731786   .1451521           500   1.980549         .         .
+---------+---------------------------------------------------------------------
+   Total |  5,536.70216   .1596618          3000   1.870447         .         .
+
+Hazard ratios derived from psi=-.1811775
+----------------------------------------------------------------
+                Haz. ratio    P-value    [99.5% Conf. Interval]
+----------------------------------------------------------------
+ITT             .8115868      0.061      .58941311   1.1175068
+Adjusted*       .77009311     0.061      .52076594   1.1387907
+No treatment**  1.0074854         .      .           .
+----------------------------------------------------------------
+* test-based confidence interval
+** check on estimation procedure: hazard ratio should be near 1
+
+sts graph, by(imm) note("Counterfactual for psi=-.1811775") plot1opts(lpattern(dash) lcolor(green))
+>  plot2opts(lpattern(dot) lcolor(green)) plot3opts(lpattern(dash) lcolor(red)) plot4opts(lpattern(
+> dot) lcolor(red)) plot5opts(lpattern(dash) lcolor(blue)) title(KM graph) name(KMgraph, replace)
+New variables u3 du3 cu3 created
+
+. assert !mi(u3,du3,cu3)
+
+. ret list
+
+scalars:
+             r(HR_non) =  1.007485398751593
+         r(HR_adj_upp) =  1.138790678718417
+         r(HR_adj_low) =  .5207659436978965
+             r(HR_adj) =  .7700931128617917
+         r(HR_ITT_upp) =  1.117506760973562
+         r(HR_ITT_low) =  .5894131058702015
+             r(HR_ITT) =  .8115867980791557
+               r(nxo1) =  0
+                 r(d1) =  143
+                 r(n1) =  500
+               r(nxo0) =  189
+                 r(d0) =  169
+                 r(n0) =  500
+              r(P_ITT) =  .0608630308876057
+              r(Z_ITT) =  -1.874489188101479
+            r(psi_upp) =  .1088896359111082
+            r(psi_low) =  -.4521345766750642
+                r(psi) =  -.1811775097966688
+
+macros:
+             r(strata) : "stratum"
+            r(adjvars) : "x"
+             r(method) : "Robins-Tsiatis method"
+            r(savedta) : "zz.dta"
+
+. local psi=r(psi)
+
+. 
+. * Check saved results
+. strbee
+----------------------------------------------------------------
+Estimating psi from accelerated life model
+----------------------------------------------------------------
+imm=0                  500 subjects, 169 events, 189 switches
+imm=1                  500 subjects, 143 events, 0 switches
+Method                 Robins-Tsiatis method
+Randomised group       imm
+Test                   weibull
+   adjusted for        x
+   stratified by       stratum
+Switch in arm 0        xoyrs xo
+Switch in arm 1        -
+Treatment variable     imm
+End of study variable  censyrs
+Recensoring options    toffmax1(0)
+Results file           zz.dta
+
+Results for log acceleration ratio psi
+----------------------------------------------------------------
+                psi           P-value    [95% Conf. interval]
+----------------------------------------------------------------
+Best            -.1811775     0.061      -.3470542    .0096974
+lower bound     -.1811781                    -.375           0
+upper bound     -.1811771                     -.25       .0625
+----------------------------------------------------------------
+
+. assert `psi'==r(psi)
+
+. strbee using zz, list graph(title("Crossover-adjusted analysis, no recensoring") ///
+>     name(zgraph_zz2, replace))
+----------------------------------------------------------------
+Estimating psi from accelerated life model
+----------------------------------------------------------------
+imm=0                  500 subjects, 169 events, 189 switches
+imm=1                  500 subjects, 143 events, 0 switches
+Method                 Robins-Tsiatis method
+Randomised group       imm
+Test                   weibull
+   adjusted for        x
+   stratified by       stratum
+Switch in arm 0        xoyrs xo
+Switch in arm 1        -
+Treatment variable     imm
+End of study variable  censyrs
+Recensoring options    toffmax1(0)
+Results file           zz
+
+  +-------------------------+
+  |        psi            Z |
+  |-------------------------|
+  |          0   -1.8744892 |
+  |         -1    6.4812816 |
+  |          1   -11.120344 |
+  |        -.5    3.5684156 |
+  |       -.25    .60734098 |
+  |-------------------------|
+  |      -.125   -.71298787 |
+  |     -.1875    .05153812 |
+  |    -.15625   -.24439375 |
+  |   -.171875   -.04250748 |
+  |  -.1796875   -.02819741 |
+  |-------------------------|
+  | -.18359375     .0444212 |
+  | -.18164063     .0408828 |
+  | -.18066406   -.02639326 |
+  | -.18115234   -.02548989 |
+  | -.18139648    .04044143 |
+  |-------------------------|
+  | -.18127441    .04022083 |
+  | -.18121338    .04011054 |
+  | -.18118286    .04005541 |
+  |  -.1811676   -.02546165 |
+  | -.18117523   -.02544752 |
+  |-------------------------|
+  | -.18117905    .04004852 |
+  | -.18117714   -.02544399 |
+  | -.18117809    .04004679 |
+  |         .5   -6.7514692 |
+  |        .25   -4.2814806 |
+  |-------------------------|
+  |       .125   -2.9420724 |
+  |      .0625   -2.4253773 |
+  |     .09375   -2.6812172 |
+  |    .109375   -2.8130476 |
+  |   .1015625    -2.716269 |
+  |-------------------------|
+  |  .10546875   -2.7646528 |
+  |  .10742188   -2.7888488 |
+  |  .10839844   -2.8009478 |
+  |  .10888672   -2.8069976 |
+  |  .10913086   -2.8100226 |
+  |-------------------------|
+  |  .10900879   -2.8085101 |
+  |  .10894775   -2.8077539 |
+  |  .10891724   -2.8073757 |
+  |  .10890198   -2.8071867 |
+  |  .10889435   -2.8070922 |
+  |-------------------------|
+  |  .10889053   -2.8070449 |
+  |  .10888863   -2.8070213 |
+  |  .10888958   -2.8070331 |
+  |      -.375    2.3494384 |
+  |     -.4375     2.697299 |
+  |-------------------------|
+  |    -.46875    3.2483302 |
+  |   -.453125    2.8437614 |
+  |  -.4453125    2.7670056 |
+  | -.44921875    2.7722212 |
+  | -.45117188    2.7748432 |
+  |-------------------------|
+  | -.45214844    2.8424733 |
+  | -.45166016    2.7755002 |
+  |  -.4519043    2.7758289 |
+  | -.45202637    2.7759933 |
+  |  -.4520874    2.7760755 |
+  |-------------------------|
+  | -.45211792    2.7761166 |
+  | -.45213318    2.7761372 |
+  | -.45214081    2.8424632 |
+  | -.45213699    2.8424582 |
+  | -.45213509    2.8424557 |
+  |-------------------------|
+  | -.45213413    2.7761385 |
+  +-------------------------+
+
+Results for log acceleration ratio psi
+----------------------------------------------------------------
+                psi           P-value    [95% Conf. interval]
+----------------------------------------------------------------
+Best            -.1811775     0.061      -.3470542    .0096974
+lower bound     -.1811781                    -.375           0
+upper bound     -.1811771                     -.25       .0625
+----------------------------------------------------------------
+
+. assert `psi'==r(psi)
+
+. 
+. * Debugging
+. strbee imm, xo0(xoyrs xo) endstudy(cens) trace
+test() not specified: assumed test(logrank)
+Searching by interval bisection
+Total in arm 0/1:              500/500 subjects (169/143 events)
+psi =          0   recensoring   0/  0 subjects (  0/  0 events)   Z = -1.9138813 
+psi =         -1   recensoring 451/  0 subjects (120/  0 events)   Z =  7.5295827 
+psi =          1   recensoring 172/  0 subjects ( 33/  0 events)   Z = -8.9470580 
+psi =        -.5   recensoring 407/  0 subjects ( 76/  0 events)   Z =  3.6585260 
+psi =       -.25   recensoring 365/  0 subjects ( 34/  0 events)   Z =  0.5539708 
+psi =      -.125   recensoring 347/  0 subjects ( 16/  0 events)   Z = -0.7296969 
+psi =     -.1875   recensoring 358/  0 subjects ( 27/  0 events)   Z =  0.0449874 
+psi =    -.15625   recensoring 354/  0 subjects ( 23/  0 events)   Z = -0.2640580 
+psi =   -.171875   recensoring 357/  0 subjects ( 26/  0 events)   Z = -0.0464997 
+psi =  -.1796875   recensoring 357/  0 subjects ( 26/  0 events)   Z = -0.0310307 
+psi =  -.1835938   recensoring 358/  0 subjects ( 27/  0 events)   Z =  0.0373997 
+psi =  -.1816406   recensoring 358/  0 subjects ( 27/  0 events)   Z =  0.0301770 
+psi =  -.1806641   recensoring 357/  0 subjects ( 26/  0 events)   Z = -0.0309240 
+psi =         .5   recensoring 157/  0 subjects ( 18/  0 events)   Z = -6.2485216 
+psi =        .25   recensoring 150/  0 subjects ( 11/  0 events)   Z = -4.2040083 
+psi =       .125   recensoring 147/  0 subjects (  8/  0 events)   Z = -2.9573701 
+psi =      .0625   recensoring 143/  0 subjects (  4/  0 events)   Z = -2.4522965 
+psi =     .03125   recensoring 140/  0 subjects (  1/  0 events)   Z = -2.2337103 
+psi =    .015625   recensoring 139/  0 subjects (  0/  0 events)   Z = -2.1270533 
+psi =   .0078125   recensoring 139/  0 subjects (  0/  0 events)   Z = -2.0280521 
+psi =  .00390625   recensoring 139/  0 subjects (  0/  0 events)   Z = -1.9842179 
+psi =  .00195313   recensoring 139/  0 subjects (  0/  0 events)   Z = -1.9596514 
+psi =  .00292969   recensoring 139/  0 subjects (  0/  0 events)   Z = -1.9664165 
+psi =      -.375   recensoring 390/  0 subjects ( 59/  0 events)   Z =  2.3215320 
+psi =     -.3125   recensoring 376/  0 subjects ( 45/  0 events)   Z =  1.3275937 
+psi =    -.34375   recensoring 383/  0 subjects ( 52/  0 events)   Z =  1.8317332 
+psi =   -.359375   recensoring 387/  0 subjects ( 56/  0 events)   Z =  2.1208292 
+psi =  -.3515625   recensoring 387/  0 subjects ( 56/  0 events)   Z =  2.1090404 
+psi =  -.3476563   recensoring 384/  0 subjects ( 53/  0 events)   Z =  1.9035637 
+psi =  -.3496094   recensoring 384/  0 subjects ( 53/  0 events)   Z =  1.9084902 
+psi =  -.3505859   recensoring 387/  0 subjects ( 56/  0 events)   Z =  2.1075748 
+
+file _strbee_savedta.dta saved
+
+----------------------------------------------------------------
+Estimating psi from accelerated life model
+----------------------------------------------------------------
+imm=0                  500 subjects, 169 events, 189 switches
+imm=1                  500 subjects, 143 events, 0 switches
+Method                 Robins-Tsiatis method
+Randomised group       imm
+Test                   logrank
+   adjusted for        -
+   stratified by       -
+Switch in arm 0        xoyrs xo
+Switch in arm 1        -
+Treatment variable     imm
+End of study variable  censyrs
+Recensoring options    toffmax1(0)
+Results file           _strbee_savedta
+
+Results for log acceleration ratio psi
+----------------------------------------------------------------
+                psi           P-value    [95% Conf. interval]
+----------------------------------------------------------------
+Best            -.1811583     0.056      -.3498619    .0019982
+lower bound     -.1816406                -.3505859    .0019531
+upper bound     -.1806641                -.3496094    .0029297
+----------------------------------------------------------------
+
+. strbee imm, xo0(xoyrs xo) endstudy(cens) debug
+Estimation and output syntax
+Gestimate imm  , xo0(xoyrs xo) endstudy(cens) debug
+test() not specified: assumed test(logrank)
+Searching by interval bisection
+psi =          0 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(0) 
+>  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs) isrecens(__00
+> 0007) debug
+Z = -1.9138813  esthi=0 estlo=. upphi=. upplo=0 lowhi=0 lowlo=. Extending psi range to left 
+psi =         -1 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-1)
+>   toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs) isrecens(__0
+> 00007) debug
+Z =  7.5295827  esthi=0 estlo=-1 upphi=. upplo=0 lowhi=0 lowlo=-1 
+psi =          1 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(1) 
+>  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs) isrecens(__00
+> 0007) debug
+Z = -8.9470580  esthi=0 estlo=-1 upphi=1 upplo=0 lowhi=0 lowlo=-1 
+psi =        -.5 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-.5
+> )  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs) isrecens(__
+> 000007) debug
+Z =  3.6585260  esthi=0 estlo=-.5 upphi=1 upplo=0 lowhi=0 lowlo=-.5 Improving estimate 
+psi =       -.25 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-.2
+> 5)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs) isrecens(_
+> _000007) debug
+Z =  0.5539708  esthi=0 estlo=-.25 upphi=1 upplo=0 lowhi=-.25 lowlo=-.5 Improving estimate 
+psi =      -.125 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-.1
+> 25)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs) isrecens(
+> __000007) debug
+Z = -0.7296969  esthi=-.125 estlo=-.25 upphi=1 upplo=0 lowhi=-.25 lowlo=-.5 Improving estimate 
+psi =     -.1875 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-.1
+> 875)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs) isrecens
+> (__000007) debug
+Z =  0.0449874  esthi=-.125 estlo=-.1875 upphi=1 upplo=0 lowhi=-.25 lowlo=-.5 Improving estimate 
+psi =    -.15625 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-.1
+> 5625)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs) isrecen
+> s(__000007) debug
+Z = -0.2640580  esthi=-.15625 estlo=-.1875 upphi=1 upplo=0 lowhi=-.25 lowlo=-.5 Improving estimate 
+psi =   -.171875 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-.1
+> 71875)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs) isrece
+> ns(__000007) debug
+Z = -0.0464997  esthi=-.171875 estlo=-.1875 upphi=1 upplo=0 lowhi=-.25 lowlo=-.5 Improving estimate
+>  
+psi =  -.1796875 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-.1
+> 796875)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs) isrec
+> ens(__000007) debug
+Z = -0.0310307  esthi=-.1796875 estlo=-.1875 upphi=1 upplo=0 lowhi=-.25 lowlo=-.5 Improving estimat
+> e 
+psi =  -.1835938 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-.1
+> 8359375)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs) isre
+> cens(__000007) debug
+Z =  0.0373997  esthi=-.1796875 estlo=-.18359375 upphi=1 upplo=0 lowhi=-.25 lowlo=-.5 Improving est
+> imate 
+psi =  -.1816406 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-.1
+> 81640625)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs) isr
+> ecens(__000007) debug
+Z =  0.0301770  esthi=-.1796875 estlo=-.181640625 upphi=1 upplo=0 lowhi=-.25 lowlo=-.5 Improving es
+> timate 
+psi =  -.1806641 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-.1
+> 806640625)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs) is
+> recens(__000007) debug
+Z = -0.0309240  esthi=-.18066406 estlo=-.181640625 upphi=1 upplo=0 lowhi=-.25 lowlo=-.5 Improving u
+> pper CL 
+psi =         .5 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(.5)
+>   toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs) isrecens(__0
+> 00007) debug
+Z = -6.2485216  esthi=-.18066406 estlo=-.181640625 upphi=.5 upplo=0 lowhi=-.25 lowlo=-.5 Improving 
+> upper CL 
+psi =        .25 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(.25
+> )  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs) isrecens(__
+> 000007) debug
+Z = -4.2040083  esthi=-.18066406 estlo=-.181640625 upphi=.25 upplo=0 lowhi=-.25 lowlo=-.5 Improving
+>  upper CL 
+psi =       .125 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(.12
+> 5)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs) isrecens(_
+> _000007) debug
+Z = -2.9573701  esthi=-.18066406 estlo=-.181640625 upphi=.125 upplo=0 lowhi=-.25 lowlo=-.5 Improvin
+> g upper CL 
+psi =      .0625 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(.06
+> 25)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs) isrecens(
+> __000007) debug
+Z = -2.4522965  esthi=-.18066406 estlo=-.181640625 upphi=.0625 upplo=0 lowhi=-.25 lowlo=-.5 Improvi
+> ng upper CL 
+psi =     .03125 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(.03
+> 125)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs) isrecens
+> (__000007) debug
+Z = -2.2337103  esthi=-.18066406 estlo=-.181640625 upphi=.03125 upplo=0 lowhi=-.25 lowlo=-.5 Improv
+> ing upper CL 
+psi =    .015625 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(.01
+> 5625)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs) isrecen
+> s(__000007) debug
+Z = -2.1270533  esthi=-.18066406 estlo=-.181640625 upphi=.015625 upplo=0 lowhi=-.25 lowlo=-.5 Impro
+> ving upper CL 
+psi =   .0078125 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(.00
+> 78125)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs) isrece
+> ns(__000007) debug
+Z = -2.0280521  esthi=-.18066406 estlo=-.181640625 upphi=.0078125 upplo=0 lowhi=-.25 lowlo=-.5 Impr
+> oving upper CL 
+psi =  .00390625 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(.00
+> 390625)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs) isrec
+> ens(__000007) debug
+Z = -1.9842179  esthi=-.18066406 estlo=-.181640625 upphi=.00390625 upplo=0 lowhi=-.25 lowlo=-.5 Imp
+> roving upper CL 
+psi =  .00195313 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(.00
+> 1953125)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs) isre
+> cens(__000007) debug
+Z = -1.9596514  esthi=-.18066406 estlo=-.181640625 upphi=.00390625 upplo=.001953125 lowhi=-.25 lowl
+> o=-.5 Improving upper CL 
+psi =  .00292969 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(.00
+> 29296875)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs) isr
+> ecens(__000007) debug
+Z = -1.9664165  esthi=-.18066406 estlo=-.181640625 upphi=.0029296875 upplo=.001953125 lowhi=-.25 lo
+> wlo=-.5 Improving lower CL 
+psi =      -.375 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-.3
+> 75)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs) isrecens(
+> __000007) debug
+Z =  2.3215320  esthi=-.18066406 estlo=-.181640625 upphi=.0029296875 upplo=.001953125 lowhi=-.25 lo
+> wlo=-.375 Improving lower CL 
+psi =     -.3125 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-.3
+> 125)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs) isrecens
+> (__000007) debug
+Z =  1.3275937  esthi=-.18066406 estlo=-.181640625 upphi=.0029296875 upplo=.001953125 lowhi=-.3125 
+> lowlo=-.375 Improving lower CL 
+psi =    -.34375 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-.3
+> 4375)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs) isrecen
+> s(__000007) debug
+Z =  1.8317332  esthi=-.18066406 estlo=-.181640625 upphi=.0029296875 upplo=.001953125 lowhi=-.34375
+>  lowlo=-.375 Improving lower CL 
+psi =   -.359375 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-.3
+> 59375)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs) isrece
+> ns(__000007) debug
+Z =  2.1208292  esthi=-.18066406 estlo=-.181640625 upphi=.0029296875 upplo=.001953125 lowhi=-.34375
+>  lowlo=-.359375 Improving lower CL 
+psi =  -.3515625 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-.3
+> 515625)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs) isrec
+> ens(__000007) debug
+Z =  2.1090404  esthi=-.18066406 estlo=-.181640625 upphi=.0029296875 upplo=.001953125 lowhi=-.34375
+>  lowlo=-.3515625 Improving lower CL 
+psi =  -.3476563 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-.3
+> 4765625)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs) isre
+> cens(__000007) debug
+Z =  1.9035637  esthi=-.18066406 estlo=-.181640625 upphi=.0029296875 upplo=.001953125 lowhi=-.34765
+> 625 lowlo=-.3515625 Improving lower CL 
+psi =  -.3496094 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-.3
+> 49609375)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs) isr
+> ecens(__000007) debug
+Z =  1.9084902  esthi=-.18066406 estlo=-.181640625 upphi=.0029296875 upplo=.001953125 lowhi=-.34960
+> 9375 lowlo=-.3515625 Improving lower CL 
+psi =  -.3505859 Call: makeu , u(__000004) du(__000005) t(__000002) dt(__000003) treat(imm) psi(-.3
+> 505859375)  toff(__000008) ton(__000009) toffmax1(0) noipe noipecens notrace endstudy(censyrs) is
+> recens(__000007) debug
+Z =  2.1075748  esthi=-.18066406 estlo=-.181640625 upphi=.0029296875 upplo=.001953125 lowhi=-.34960
+> 9375 lowlo=-.3505859375 
+FINISH!!! 
+
+file _strbee_savedta.dta saved
+
+strbee.Output using _strbee_savedta, level(95) debug
+Loading results file _strbee_savedta
+----------------------------------------------------------------
+Estimating psi from accelerated life model
+----------------------------------------------------------------
+imm=0                  500 subjects, 169 events, 189 switches
+imm=1                  500 subjects, 143 events, 0 switches
+Method                 Robins-Tsiatis method
+Randomised group       imm
+Test                   logrank
+   adjusted for        -
+   stratified by       -
+Switch in arm 0        xoyrs xo
+Switch in arm 1        -
+Treatment variable     imm
+End of study variable  censyrs
+Recensoring options    toffmax1(0)
+Results file           _strbee_savedta
+
+Results for log acceleration ratio psi
+----------------------------------------------------------------
+                psi           P-value    [95% Conf. interval]
+----------------------------------------------------------------
+Best            -.1811583     0.056      -.3498619    .0019982
+lower bound     -.1816406                -.3505859    .0019531
+upper bound     -.1806641                -.3496094    .0029297
+----------------------------------------------------------------
+
+. 
+. * Check HR etc.: added 31mar2016
+. strbee imm, xo0(xoyrs xo) endstudy(cens) hr
+test() not specified: assumed test(logrank)
+Searching by interval bisection...............................
+file _strbee_savedta.dta saved
+
+----------------------------------------------------------------
+Estimating psi from accelerated life model
+----------------------------------------------------------------
+imm=0                  500 subjects, 169 events, 189 switches
+imm=1                  500 subjects, 143 events, 0 switches
+Method                 Robins-Tsiatis method
+Randomised group       imm
+Test                   logrank
+   adjusted for        -
+   stratified by       -
+Switch in arm 0        xoyrs xo
+Switch in arm 1        -
+Treatment variable     imm
+End of study variable  censyrs
+Recensoring options    toffmax1(0)
+Results file           _strbee_savedta
+
+Results for log acceleration ratio psi
+----------------------------------------------------------------
+                psi           P-value    [95% Conf. interval]
+----------------------------------------------------------------
+Best            -.1811583     0.056      -.3498619    .0019982
+lower bound     -.1816406                -.3505859    .0019531
+upper bound     -.1806641                -.3496094    .0029297
+----------------------------------------------------------------
+
+Hazard ratios derived from psi=-.1811583
+----------------------------------------------------------------
+                Haz. ratio    P-value    [95% Conf. Interval]
+----------------------------------------------------------------
+ITT             .80482149     0.056      .64407913   1.0056802
+Adjusted*       .76109922     0.056      .57547688   1.0065948
+No treatment**  .99646468         .      .           .
+----------------------------------------------------------------
+* test-based confidence interval
+** check on estimation procedure: hazard ratio should be near 1
+
+
+. local hr_ITT = r(HR_ITT)
+
+. local hr = r(HR_adj)
+
+. strbee def, xo1(xoyrs xo) endstudy(cens) hr
+test() not specified: assumed test(logrank)
+Searching by interval bisection...............................
+file _strbee_savedta.dta saved
+
+----------------------------------------------------------------
+Estimating psi from accelerated life model
+----------------------------------------------------------------
+def=0                  500 subjects, 143 events, 0 switches
+def=1                  500 subjects, 169 events, 189 switches
+Method                 Robins-Tsiatis method
+Randomised group       def
+Test                   logrank
+   adjusted for        -
+   stratified by       -
+Switch in arm 0        -
+Switch in arm 1        xoyrs xo
+Treatment variable     def
+End of study variable  censyrs
+Recensoring options    tonmax0(0)
+Results file           _strbee_savedta
+
+Results for log acceleration ratio psi
+----------------------------------------------------------------
+                psi           P-value    [95% Conf. interval]
+----------------------------------------------------------------
+Best             .1811583     0.056      -.0019982    .3498619
+lower bound      .1806641                -.0029297    .3496094
+upper bound      .1816406                -.0019531    .3505859
+----------------------------------------------------------------
+
+Hazard ratios derived from psi= .1811583
+----------------------------------------------------------------
+                Haz. ratio    P-value    [95% Conf. Interval]
+----------------------------------------------------------------
+ITT             1.2425116     0.056      .99435188   1.5526043
+Adjusted*       1.3138891     0.056      .99344843   1.7376893
+No treatment**  1.0035479         .      .           .
+----------------------------------------------------------------
+* test-based confidence interval
+** check on estimation procedure: hazard ratio should be near 1
+
+
+. assert abs(`hr' - 1/r(HR_adj)) < 1E-6
+
+. strbee imm, xo0(xoyrs xo) endstudy(cens) hr psimult(2)
+test() not specified: assumed test(logrank)
+Searching by interval bisection..............................
+file _strbee_savedta.dta saved
+
+----------------------------------------------------------------
+Estimating psi from accelerated life model
+----------------------------------------------------------------
+imm=0                  500 subjects, 169 events, 189 switches
+imm=1                  500 subjects, 143 events, 0 switches
+Method                 Robins-Tsiatis method
+Randomised group       imm
+Test                   logrank
+   adjusted for        -
+   stratified by       -
+Switch in arm 0        xoyrs xo
+Switch in arm 1        -
+Psi multiplier         2
+Treatment variable     imm
+End of study variable  censyrs
+Recensoring options    toffmax1(0)
+Results file           _strbee_savedta
+
+Results for log acceleration ratio psi
+----------------------------------------------------------------
+                psi           P-value    [95% Conf. interval]
+----------------------------------------------------------------
+Best            -.0903388     0.056      -.1750553     .000989
+lower bound     -.0908203                -.1757813    .0009766
+upper bound     -.0898438                -.1748047    .0019531
+----------------------------------------------------------------
+
+Hazard ratios derived from psi=-.0903388
+----------------------------------------------------------------
+                Haz. ratio    P-value    [95% Conf. Interval]
+----------------------------------------------------------------
+ITT             .80482149     0.056      .64407913   1.0056802
+Adjusted*       .76135826     0.056      .57587339   1.0065865
+No treatment**  .99634885         .      .           .
+----------------------------------------------------------------
+* test-based confidence interval
+** check on estimation procedure: hazard ratio should be near 1
+
+
+. assert abs(`hr_ITT' - r(HR_ITT)) < 1E-6
+
+. gen ton = progyrs if imm
+(500 missing values generated)
+
+. replace ton = 0 if def & !xo
+(311 real changes made)
+
+. replace ton = progyrs - xoyrs if def & xo
+(189 real changes made)
+
+. strbee imm, ton(ton) endstudy(cens) hr
+test() not specified: assumed test(logrank)
+Searching by interval bisection...............................
+file _strbee_savedta.dta saved
+
+----------------------------------------------------------------
+Estimating psi from accelerated life model
+----------------------------------------------------------------
+imm=0                  500 subjects, 169 events, 189 switches
+imm=1                  500 subjects, 143 events, 0 switches
+Method                 Robins-Tsiatis method
+Randomised group       imm
+Test                   logrank
+   adjusted for        -
+   stratified by       -
+Time on treatment      ton
+Treatment variable     imm
+End of study variable  censyrs
+Recensoring options    toffmax1(0)
+Results file           _strbee_savedta
+
+Results for log acceleration ratio psi
+----------------------------------------------------------------
+                psi           P-value    [95% Conf. interval]
+----------------------------------------------------------------
+Best            -.1811583     0.056      -.3498619    .0019982
+lower bound     -.1816406                -.3505859    .0019531
+upper bound     -.1806641                -.3496094    .0029297
+----------------------------------------------------------------
+
+Hazard ratios derived from psi=-.1811583
+----------------------------------------------------------------
+                Haz. ratio    P-value    [95% Conf. Interval]
+----------------------------------------------------------------
+ITT             .80482149     0.056      .64407913   1.0056802
+Adjusted*       .76109922     0.056      .57547688   1.0065948
+No treatment**  .99646468         .      .           .
+----------------------------------------------------------------
+* test-based confidence interval
+** check on estimation procedure: hazard ratio should be near 1
+
+
+. assert abs(`hr' - r(HR_adj)) < 1E-6
+
+. strbee, hr(full untr)
+----------------------------------------------------------------
+Estimating psi from accelerated life model
+----------------------------------------------------------------
+imm=0                  500 subjects, 169 events, 189 switches
+imm=1                  500 subjects, 143 events, 0 switches
+Method                 Robins-Tsiatis method
+Randomised group       imm
+Test                   logrank
+   adjusted for        -
+   stratified by       -
+Time on treatment      ton
+Treatment variable     imm
+End of study variable  censyrs
+Recensoring options    toffmax1(0)
+Results file           _strbee_savedta
+
+Results for log acceleration ratio psi
+----------------------------------------------------------------
+                psi           P-value    [95% Conf. interval]
+----------------------------------------------------------------
+Best            -.1811583     0.056      -.3498619    .0019982
+lower bound     -.1816406                -.3505859    .0019531
+upper bound     -.1806641                -.3496094    .0029297
+----------------------------------------------------------------
+
+Hazard ratios derived from psi=-.1811583
+----------------------------------------------------------------
+                Haz. ratio    P-value    [95% Conf. Interval]
+----------------------------------------------------------------
+ITT             .80482149     0.056      .64407913   1.0056802
+Adjusted*       .76109922     0.056      .57547688   1.0065948
+No treatment**  .99646468         .      .           .
+User***         .76109922     0.056      .57547688   1.0065948
+----------------------------------------------------------------
+* test-based confidence interval
+** check on estimation procedure: hazard ratio should be near 1
+*** User-specified comparison: imm=1 if fully treated vs. imm=0 if untreated
+
+
+. assert abs(`hr' - r(HR_user)) < 1E-6
+
+. 
+. * Check data haven't been changed
+. drop u du cu ton
+
+. cf _all using z
+
+. 
+. * Tidy up
+. erase z.dta
+
+. erase zz.dta
+
+. erase _strbee_savedta.dta
+
+. 
+. di "*** strbee_cscript has run successfully ***"
+*** strbee_cscript has run successfully ***
+
+. log close
+      name:  <unnamed>
+       log:  c:\ado\ian\strbee\strbee_cscript.log
+  log type:  text
+ closed on:   7 Jan 2022, 16:29:10
+---------------------------------------------------------------------------------------------------

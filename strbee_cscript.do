@@ -1,11 +1,13 @@
+cd c:\ado\ian\strbee
+cap log close
+log using strbee_cscript, text replace
+
 /* 
 cscript for strbee
 was in trtchg\strbee\ado\update2011
 moved 12feb2018 to C:\ado\ian\strbee & updated
 30may2018: added check that `gen' variables are non-missing
 */
-
-cd c:\ado\ian\strbee
 
 pda
 set more off
@@ -116,3 +118,4 @@ erase zz.dta
 erase _strbee_savedta.dta
 
 di "*** strbee_cscript has run successfully ***"
+log close
