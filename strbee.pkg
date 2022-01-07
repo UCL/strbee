@@ -1,8 +1,8 @@
 v 3
-d strbee: Estimate a treatment effect adjusting for treatment crossover.
+d strbee: Estimate a treatment effect adjusting for treatment switches
 d Program by Ian White.
-d Version 1.8.8
-d Distribution-Date: 30may2018
+d Version 1.8.9
+d Distribution-Date: 13feb2020
 
 f strbee.ado
 f strbee.sthlp
