@@ -1,6 +1,8 @@
-*! version 1.8.8   Ian White   30may2018
+*! version 1.8.9   Ian White   13feb2020
 
 /*************************** NOTES ********************************
+v1.8.9 13feb2020 
+	added "if" to legends in kmgraph option
 version 1.8.8   30may2018 - ON MY UCL WEBSITE
 	gen() now outputs correct recensoring variable 
 		was missing
@@ -919,12 +921,12 @@ if "`estOK'"!="0" {
                   `treat0' `u1' `du' `adjvars' `strata', group(3) clear
         rename _stack `type'
         qui gen int `treat' = 10*(`type'-1)+`treat0'
-        local name0  "0 observed"
-		local name1  "1 observed"
-        local name10 "0 untreated"
-		local name11 "1 untreated"    
-        local name20 "0 fully treated" 
-		local name21 "1 fully treated"
+        local name0  "0 if observed"
+		local name1  "1 if observed"
+        local name10 "0 if untreated"
+		local name11 "1 if untreated"    
+        local name20 "0 if fully treated" 
+		local name21 "1 if fully treated"
         foreach val in 0 1 10 11 20 21 {
 			label def treat2 `val' "`name`val''", add
 		}

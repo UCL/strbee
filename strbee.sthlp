@@ -1,4 +1,5 @@
 {smcl}
+{* 13feb2020, minor clarification to hr}{...}
 {* 30may2018, minor updates}{...}
 {* version 1.8.6   Ian White   17jan2018}{...}
 {* 17jan2018, updated to UCL}{...}
@@ -251,6 +252,8 @@ graphs the test statistic Z against psi.
 treated with arm 0 if never treated. 
 A test-based confidence interval is given. 
 For details, see {help strbee##White++99:White et al (1999)}. 
+If {cmd:adjvars(}{it:varlist}{cmd:)} is also specified 
+then the hazard ratio is adjusted for {it:varlist}.
 
 {phang}
 {cmdab:km:graph}[{cmd:(}{it:suboptions}{cmd:)}] 
