@@ -1,12 +1,11 @@
 *! version 1.9.0   Ian White   7jan2022
 
 /*************************** NOTES ********************************
-v1.9.0 7jan2022
+v1.9.0 7jan2022 - ON SSC
 	small changes to km option
 		never show counterfactual graphs when they match observed
 		default is observed and untreated
 		change "if observed" to "as observed"
-	send to SSC before UMIT course
 v1.8.9 13feb2020 
 	added "if" to legends in kmgraph option
 version 1.8.8   30may2018 - ON MY UCL WEBSITE
