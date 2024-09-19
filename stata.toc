@@ -2,4 +2,4 @@ v 3
 
 d Ian White's Stata software
 
-p strbee: Estimate a treatment effect in a randomised trial adjusting for treatment switches
+p strbee Estimate a treatment effect in a randomised trial adjusting for treatment switches
