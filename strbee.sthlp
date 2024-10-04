@@ -349,7 +349,7 @@ test(wilcoxon) now works correctly.
 
 {pstd}Example using simulated data of immediate vs. deferred treatment:
 
-        {com}. {stata "use http://www.homepages.ucl.ac.uk/~rmjwiww/stata/noncomp/immdef.dta, clear"}
+        {phang2}{com}. {stata "use http://www.homepages.ucl.ac.uk/~rmjwiww/stata/noncomp/immdef.dta, clear"}{p_end}
         {com}. {stata stset progyrs prog}{txt}
 
 {pstd}Intention-to-treat analysis
@@ -362,7 +362,7 @@ test(wilcoxon) now works correctly.
 
 {pstd}RBEE analysis with recensoring
 
-        {com}. {stata strbee imm, xo0(xoyrs xo) endstudy(censyrs) savedta(recens)}{txt}
+        {phang2}{com}. {stata strbee imm, xo0(xoyrs xo) endstudy(censyrs) savedta(recens)}{txt}
 
 {pstd}Grid search to check for multiple axis-crossings
 
